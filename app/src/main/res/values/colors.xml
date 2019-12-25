@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#06B3AF</color>
+    <color name="colorPrimaryDark">#008380</color>
+    <color name="colorPrimaryLight">#5de6e1</color>
+    <color name="colorAccent">#06B3AF</color>
+
+    <!-- general colors for drawer -->
+    <color name="list_background">#F2F2F2</color>
+    <!-- primary colors for drawer -->
+    <color name="list_background_normal">#FCFCFC</color>
+</resources>
