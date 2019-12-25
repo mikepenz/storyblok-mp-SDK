@@ -29,68 +29,25 @@ afterEvaluate {
 }
 
 afterEvaluate {
-    publishing {
-        def variantName = "${project.name}"
-
-        if (variantName == "library") {
-            variantName = POM_ARTIFACT_ID
-        }
-
-        println(variantName)
-
-        publications {
-            maven(MavenPublication) { publication ->
-                artifactId = "$variantName"
-                publication.artifact javadocJar
-                publication.artifact sourcesJar
-                publication.pom.withXml(configureMavenCentralMetadata)
-            }
-        }
-
-        // Rename artifacts for backward compatibility
-        publications.all {
-            def type = it.name
-            println("Configuring $type")
-            switch (type) {
-                case 'kotlinMultiplatform':
-                    it.artifactId = "$variantName-native"
-                    break
-                case 'metadata':
-                    it.artifactId = "$variantName-common"
-                    break
-                case 'jvm':
-                case 'android':
-                case 'js':
-                case 'native': // native most probably unused but I'll leave it just in case
-                    it.artifactId = "$variantName-$type"
-                    break
-            }
-            println("Artifact id = ${it.artifactId}")
-        }
-
-        disableMetadataPublication()
-    }
-}
-
-private void disableMetadataPublication() {
-    kotlin.targets.all { target ->
-        def publication = publishing.publications.findByName(target.name)
-
-        if (publication != null) {
-            publication.artifact stubJavadoc
-            if (target.platformType.name != 'native') {
-                publication.moduleDescriptorGenerator = null
-                tasks.matching {
-                    it.name == "generateMetadataFileFor${name.capitalize()}Publication"
-                }.all {
-                    onlyIf { false }
-                }
-            }
+    project.publishing.publications.all {
+        // rename artifacts
+        if (it.name.contains('metadata')) {
+            artifactId = "$POM_ARTIFACT_ID"
+        } else {
+            artifactId = "$POM_ARTIFACT_ID-$name"
         }
     }
 }
 
 apply from: project.rootProject.file("gradle/bintray.gradle")
+
+bintrayUpload.doFirst {
+    publications = publishing.publications.collect {
+        it.name
+    }.findAll {
+        it != "kotlinMultiplatform"
+    }
+}
 
 // This is required for K/N publishing
 bintrayUpload.dependsOn publishToMavenLocal

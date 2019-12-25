@@ -76,6 +76,7 @@ android {
 
 dependencies {
     implementation project(path: ':library')
+    // implementation "com.mikepenz:storyblok-mp-sdk-android:0.0.1"
 
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
     implementation "androidx.recyclerview:recyclerview:${versions.recyclerView}"

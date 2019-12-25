@@ -56,5 +56,6 @@ allprojects {
         google()
         jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        // maven { url "https://dl.bintray.com/mikepenz/mptest/" }
     }
 }

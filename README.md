@@ -9,9 +9,13 @@ It uses Kotlin multiplatform and coroutines to offer a convenient API for all su
 
 # Include in your project
 ## Using Maven
-
 ```gradle
-// NOTE: currently unreleased
+// NOTE: currently only released to a temp repo.
+repositories {
+    ...
+    maven { url "https://dl.bintray.com/mikepenz/mptest/" }
+}
+
 implementation "com.mikepenz:storyblok-mp-sdk:0.0.1"
 ```
 
@@ -70,6 +74,7 @@ This free, open source software was also made possible by a group of volunteers 
 
 Some parts of the Kotlin Multiplatform configurations are a result of various great resources on the internet. Including:
 - https://github.com/joreilly/PeopleInSpace
+- https://natanfudge.github.io/fudgedocs/publish-kotlin-mpp-lib.html
 - https://github.com/Kotlin/kotlinx.serialization
 - https://github.com/Kotlin/dokka
 - and the official Kotlin multiplatform docs
