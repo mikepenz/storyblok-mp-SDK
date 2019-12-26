@@ -33,8 +33,8 @@ kotlin {
                 framework("library")
             }
         }
-        fromPreset(presets.jvm, "android")
-        //fromPreset(presets.jvm, "jvm")
+        fromPreset(presets.android, "android")
+        fromPreset(presets.jvm, "jvm")
         fromPreset(presets.js, "js")
     }
 
@@ -80,7 +80,6 @@ kotlin {
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.kotlinxSerialization}"
         }
 
-        /*
         jvmMain.dependencies {
             // Kotlin
             implementation "org.jetbrains.kotlin:kotlin-stdlib:${setup.kotlin}"
@@ -99,7 +98,6 @@ kotlin {
             // Serialize
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.kotlinxSerialization}"
         }
-         */
 
         iosMain.dependencies {
             // Coroutines
@@ -142,7 +140,7 @@ dokka {
     outputDirectory = "$buildDir/dokka"
 
     configuration {
-        targets = ["JVM", "iOS", "JS"]
+        targets = ["Android", "JVM", "iOS", "JS"]
     }
 }
 

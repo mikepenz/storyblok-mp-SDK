@@ -27,9 +27,52 @@ afterEvaluate {
         classifier = 'sources'
         from kotlin.sourceSets.commonMain.kotlin
     }
+
+    task androidSourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.source
+    }
 }
 
 afterEvaluate {
+    ext.addDependency = { dependencyNode, group, name, version ->
+        dependencyNode.appendNode('groupId', group)
+        dependencyNode.appendNode('artifactId', name)
+        dependencyNode.appendNode('version', version)
+        dependencyNode.appendNode('scope', "compile")
+    }
+
+    publishing {
+        publications {
+            android(MavenPublication) {
+                groupId GROUP
+                artifactId POM_ARTIFACT_ID
+                version project.release.versionName
+                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+                artifact androidSourcesJar
+
+                pom.withXml {
+                    asNode().appendNode('name', POM_NAME)
+                    asNode().appendNode('description', POM_DESCRIPTION)
+                    asNode().appendNode('url', POM_SCM_URL)
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    configurations.implementation.allDependencies.each {
+                        // Ensure dependencies such as fileTree are not included.
+                        if (it.name != 'unspecified') {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            if (it.version != "unspecified") {
+                                addDependency(dependencyNode, it.group, it.name, it.version)
+                            } else {
+                                addDependency(dependencyNode, it.getDependencyProject().findProperty("GROUP"), it.getDependencyProject().findProperty("POM_ARTIFACT_ID"), project.release.versionName)
+                            }
+                        }
+                    }
+                    asNode().children().last() + pomConfig
+                }
+            }
+        }
+    }
+
     project.publishing.publications.all {
         // rename artifacts
         if (it.name.contains('metadata')) {
@@ -42,6 +85,13 @@ afterEvaluate {
 }
 
 apply from: project.rootProject.file("gradle/bintray.gradle")
+
+publishing {
+    publications {
+        mavenProject(MavenPublication) {
+        }
+    }
+}
 
 bintrayUpload.doFirst {
     publications = publishing.publications.collect {
