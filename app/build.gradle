@@ -1,0 +1,129 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "kotlin-android-extensions"
+    id "org.jetbrains.kotlin.kapt"
+}
+//wrap with try and catch so the build is working even if the signing stuff is missing
+try {
+    apply from: '../../../signing.gradle'
+} catch (ex) {
+}
+
+android {
+    compileSdkVersion setup.compileSdk
+    buildToolsVersion setup.buildTools
+
+    defaultConfig {
+        minSdkVersion setup.minSdk
+        targetSdkVersion setup.targetSdk
+        versionCode release.versionCode
+        versionName release.versionName
+
+        setProperty("archivesBaseName", "StoryBlok-v$versionName-c$versionCode")
+        buildConfigField "String", "STORYBLOK_TOKEN", "\"" + getProps("storyblok.token") + "\""
+
+        missingDimensionStrategy 'platform', 'android', 'jvm'
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix "-DEBUG"
+            try {
+                signingConfig signingConfigs.debug
+            } catch (ex) {
+            }
+            minifyEnabled false
+        }
+        release {
+            try {
+                signingConfig signingConfigs.release
+            } catch (ex) {
+            }
+            zipAlignEnabled true
+            minifyEnabled false
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/ktor-client-serialization.kotlin_module'
+        exclude 'META-INF/ktor-http.kotlin_module'
+        exclude 'META-INF/ktor-utils.kotlin_module'
+        exclude 'META-INF/kotlinx-coroutines-core.kotlin_module'
+        exclude 'META-INF/kotlinx-serialization-runtime.kotlin_module'
+        exclude 'META-INF/ktor-io.kotlin_module'
+        exclude 'META-INF/ktor-http-cio.kotlin_module'
+        exclude 'META-INF/ktor-client-json.kotlin_module'
+        exclude 'META-INF/ktor-client-logging.kotlin_module'
+        exclude 'META-INF/ktor-client-core.kotlin_module'
+    }
+}
+
+dependencies {
+    implementation project(path: ':library')
+    // implementation "com.mikepenz:storyblok-mp-sdk-android:0.0.1"
+
+    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+    implementation "androidx.recyclerview:recyclerview:${versions.recyclerView}"
+    implementation "androidx.cardview:cardview:${versions.cardView}"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlinCoroutines}"
+
+    implementation "androidx.activity:activity-ktx:${versions.activityKtx}"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleKtx}"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.viewModelKtx}"
+
+    // used to fill the RecyclerView with the DrawerItems
+    // and provides single and multi selection, expandable items
+    // https://github.com/mikepenz/FastAdapter
+    implementation "com.mikepenz:fastadapter:${versions.fastadapter}"
+
+    // used to base on some backwards compatible themes
+    // contains util classes to support various android versions, and clean up code
+    // comes with the awesome "Holder"-Pattern
+    // https://github.com/mikepenz/Materialize
+    implementation "com.mikepenz:materialize:${versions.materialize}"
+
+    //used to generate the drawer on the left
+    //https://github.com/mikepenz/MaterialDrawer
+    implementation "com.mikepenz:materialdrawer:${versions.materialdrawer}"
+
+    //used to display the icons in the drawer
+    //https://github.com/mikepenz/Android-Iconics
+    implementation 'com.mikepenz:material-design-iconic-typeface:2.2.0.1@aar'
+
+    //used to generate the Open Source section
+    //https://github.com/mikepenz/AboutLibraries
+    implementation('com.mikepenz:aboutlibraries:7.1.0@aar') {
+        transitive = true
+        exclude module: "fastadapter"
+    }
+}
+
+def getProps(String propName) {
+    def propsFile = rootProject.file('local.properties')
+    if (propsFile.exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propsFile))
+        return props[propName]
+    } else {
+        return ""
+    }
+}
