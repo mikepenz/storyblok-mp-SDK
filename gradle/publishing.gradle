@@ -48,7 +48,7 @@ afterEvaluate {
                 groupId GROUP
                 artifactId POM_ARTIFACT_ID
                 version project.release.versionName
-                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+                artifact("$buildDir/outputs/aar/$POM_ARTIFACT_ID-release.aar")
                 artifact androidSourcesJar
 
                 pom.withXml {
@@ -75,7 +75,7 @@ afterEvaluate {
 
     project.publishing.publications.all {
         // rename artifacts
-        if (!it.name.contains("mavenProject")) {
+        if (!(it.name.contains("mavenProject") && it.name == "library")) {
             if (it.name.contains('metadata')) {
                 artifactId = "$POM_ARTIFACT_ID"
             } else {
