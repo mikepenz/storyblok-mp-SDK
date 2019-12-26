@@ -16,7 +16,7 @@ repositories {
     maven { url "https://dl.bintray.com/mikepenz/mptest/" }
 }
 
-implementation "com.mikepenz:storyblok-mp-sdk:0.0.1"
+implementation "com.mikepenz:storyblok-mp-sdk:0.0.2"
 ```
 
 ## How to use
