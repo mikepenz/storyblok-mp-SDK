@@ -30,7 +30,7 @@ dependencies {
 }
 
 compileKotlin2Js.kotlinOptions {
-    moduleKind = "commonjs"
+    moduleKind = "umd"
     outputFile = "node/index.js"
 }
 
