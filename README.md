@@ -10,14 +10,6 @@ It uses Kotlin multiplatform and coroutines to offer a convenient API for all su
 # Include in your project
 ## Using Gradle
 
-> NOTE: currently only released to a temp repo, thus please add the following repo:
-
-```gradle
-repositories {
-    maven { url "https://dl.bintray.com/mikepenz/maven" }
-}
-```
-
 <details><summary><b>Common</b></summary>
 <p>
 
