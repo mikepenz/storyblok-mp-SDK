@@ -1,5 +1,6 @@
 import kotlin.coroutines.*
 import kotlinx.coroutines.*
+import com.mikepenz.storyblok.sdk.Storyblok
 
 external fun require(module: String): dynamic
 
@@ -9,16 +10,16 @@ fun main(args: Array<String>) {
     val express = require("express")
     val app = express()
     val application = Application()
+    val client = Storyblok("test")
 
     app.get("/", { req, res ->
         res.type("text/plain")
 
         application.launch {
-            delay(3000)
-            res.send("Kotlin/JS is kool 2")
-
+            client.fetchStories().forEach {
+                res.send(it.name)
+            }
         }
-
     })
 
     app.listen(3000, {
