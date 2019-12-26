@@ -8,16 +8,74 @@ It uses Kotlin multiplatform and coroutines to offer a convenient API for all su
 - **API DOC** https://www.storyblok.com/docs/api/content-delivery
 
 # Include in your project
-## Using Maven
-```gradle
-// NOTE: currently only released to a temp repo.
-repositories {
-    ...
-    maven { url "https://dl.bintray.com/mikepenz/mptest/" }
-}
+## Using Gradle
 
-implementation "com.mikepenz:storyblok-mp-sdk:0.0.2"
+<details><summary><b>Common</b></summary>
+<p>
+
+For experimental Kotlin [multiplatform projects](https://kotlinlang.org/docs/reference/multiplatform.html) the common module can only access APIs that are available on all the targets.
+```kotlin
+dependencies {
+    implementation("com.mikepenz:storyblok-mp-sdk:${version}")
+}
 ```
+
+</p>
+</details>
+
+<details><summary><b>JVM</b></summary>
+<p>
+
+To use the storyblok SDK on JVM, you have to include:
+```kotlin
+dependencies {
+    implementation("com.mikepenz:storyblok-mp-sdk-jvm:${version}")
+}
+```
+
+</p>
+</details>
+
+<details open><summary><b>Android</b></summary>
+<p>
+
+For Android a special dependency is provided:
+```kotlin
+dependencies {
+    implementation("com.mikepenz:storyblok-mp-sdk-android:${version}")
+}
+```
+
+</p>
+</details>
+
+<details><summary><b>iOS</b></summary>
+<p>
+
+For iOS you will have to use the Kotlin Native [support](https://github.com/JetBrains/kotlin-native) and use the following dependency:
+```kotlin
+dependencies {
+    implementation("com.mikepenz:storyblok-mp-sdk-ios:${version}")
+}
+```
+
+</p>
+</details>
+
+<details><summary><b>JS</b></summary>
+<p>
+
+For JS (node-js) applications you will have to use the Kotlin JS [support](https://kotlinlang.org/docs/tutorials/javascript/kotlin-to-javascript/kotlin-to-javascript.html) and the following dependency:
+
+```kotlin
+dependencies {
+    implementation("com.mikepenz:storyblok-mp-sdk-js:${version}")
+}
+```
+
+</p>
+</details>
+
 
 ## How to use
 ### Init client
