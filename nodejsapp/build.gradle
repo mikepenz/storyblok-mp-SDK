@@ -1,0 +1,49 @@
+group 'node-example'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.3.61'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin2js'
+apply plugin: 'kotlin-dce-js'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    implementation("com.mikepenz:storyblok-mp-sdk-js:0.0.2")
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:1.3.3"
+}
+
+compileKotlin2Js.kotlinOptions {
+    moduleKind = "commonjs"
+    outputFile = "node/index.js"
+}
+
+task npmInit(type: Exec) {
+    commandLine "npm", "init", "-y"
+}
+
+task npmInstall(type: Exec) {
+    commandLine "npm", "install", "kotlin", "kotlinx-coroutines-core", "express", "--save"
+}
+
+task npmRun(type: Exec) {
+    commandLine "node", "node/index.js"
+}
+
+npmRun.dependsOn(build)

@@ -1,0 +1,18 @@
+{
+  "name": "nodejsapp",
+  "version": "1.0.0",
+  "description": "Sample storyblok MP SDK sample app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "kotlin": "^1.3.61",
+    "kotlinx-coroutines-core": "^1.3.2"
+  },
+  "devDependencies": {}
+}
