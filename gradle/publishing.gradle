@@ -75,11 +75,13 @@ afterEvaluate {
 
     project.publishing.publications.all {
         // rename artifacts
-        if (it.name.contains('metadata')) {
-            artifactId = "$POM_ARTIFACT_ID"
-        } else {
-            artifactId = "$POM_ARTIFACT_ID-$name"
-            artifact javadocJar
+        if (!it.name.contains("mavenProject")) {
+            if (it.name.contains('metadata')) {
+                artifactId = "$POM_ARTIFACT_ID"
+            } else {
+                artifactId = "$POM_ARTIFACT_ID-$name"
+                artifact javadocJar
+            }
         }
     }
 }
