@@ -34,7 +34,7 @@ kotlin {
             }
         }
         fromPreset(presets.jvm, "android")
-        // TODO fromPreset(presets.jvm, "jvm")
+        //fromPreset(presets.jvm, "jvm")
         fromPreset(presets.js, "js")
     }
 
@@ -81,7 +81,6 @@ kotlin {
         }
 
         /*
-        TODO
         jvmMain.dependencies {
             // Kotlin
             implementation "org.jetbrains.kotlin:kotlin-stdlib:${setup.kotlin}"
@@ -95,6 +94,7 @@ kotlin {
             implementation "io.ktor:ktor-client-json-jvm:${versions.ktor}"
             implementation "io.ktor:ktor-client-logging-jvm:${versions.ktor}"
             implementation "io.ktor:ktor-client-serialization-jvm:${versions.ktor}"
+            implementation "io.ktor:ktor-client-apache:${versions.ktor}"
 
             // Serialize
             implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.kotlinxSerialization}"

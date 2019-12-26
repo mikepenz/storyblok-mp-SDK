@@ -26,33 +26,50 @@ implementation "com.mikepenz:storyblok-mp-sdk:0.0.1"
 val client = Storyblok("your-storyblok-token")
 ```
 
+### General
+
+This Kotlin multi platform library uses Kotlin coroutines for the requests (similar to the ktor API).
+All fetch methods are suspending functions, and need to be called respectively.
+
 ### Load a story
 ```kotlin
-client.fetchStory("full-slug")
+client.fetchStory("full_slug:id:uuid")
+// All storyblock params are supported, see javadoc for more information
 ```
 
 ### Load a list of stories
 ```kotlin
 client.fetchStories()
+// All storyblock params are supported, see javadoc for more information
 ```
 
-### Load a list of tags
+### Load current space
 ```kotlin
-
-```
-
-### Load a map of links
-```kotlin
-
+client.fetchCurrentSpace()
 ```
 
 ### Load a list of datasources
 ```kotlin
+client.fetchDatasources()
+```
 
+### Load a map of datasource entries
+```kotlin
+client.fetchDatasourceEntries()
+```
+
+### Load a list of map of links with their uuid as key
+```kotlin
+client.fetchLinks()
+```
+
+### Load a list of tags
+```kotlin
+client.fetchTags()
 ```
 
 
-## Libs used in sample app:
+## Libs used in android sample app:
 Mike Penz:
 - FastAdapter https://github.com/mikepenz/FastAdapter
 - AboutLibraries https://github.com/mikepenz/AboutLibraries

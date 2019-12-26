@@ -22,6 +22,8 @@ android {
 
         setProperty("archivesBaseName", "StoryBlok-v$versionName-c$versionCode")
         buildConfigField "String", "STORYBLOK_TOKEN", "\"" + getProps("storyblok.token") + "\""
+
+        missingDimensionStrategy 'platform', 'android', 'jvm'
     }
 
     buildTypes {

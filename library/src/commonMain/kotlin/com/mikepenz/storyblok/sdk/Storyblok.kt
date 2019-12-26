@@ -1,8 +1,10 @@
 package com.mikepenz.storyblok.sdk
 
+import com.mikepenz.storyblok.sdk.http.provideClient
 import com.mikepenz.storyblok.sdk.model.*
 import com.mikepenz.storyblok.sdk.utils.appendNonNull
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.HttpRequestBuilder
@@ -27,15 +29,17 @@ class Storyblok constructor(
          * Creates the [HttpClient]. Overwriting this allows to construct a custom engine, or do further adjustments to the client.
          * Note that it is required to provide a serializer again to parse the data
          */
-        private val createClient: () -> HttpClient = {
-            HttpClient {
-                install(JsonFeature) {
-                    serializer = KotlinxSerializer(Json(JsonConfiguration(strictMode = false, prettyPrint = true)))
-                }
+        private val configureClient: HttpClientConfig<*>.() -> Unit = {
+            install(JsonFeature) {
+                serializer = KotlinxSerializer(Json(JsonConfiguration(strictMode = false, prettyPrint = true)))
             }
         }
 ) {
-    private val client by lazy { createClient() }
+    private val client by lazy {
+        provideClient().config {
+            configureClient()
+        }
+    }
 
     /**
      * Defines if the requests shall be made in the edit mode
