@@ -6,6 +6,8 @@ pluginManagement {
 }
 
 include ':app'
+include ':sample-common'
+
 include ':library'
 
 enableFeaturePreview("GRADLE_METADATA")
