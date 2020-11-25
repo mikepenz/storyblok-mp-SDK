@@ -12,7 +12,7 @@ buildscript {
                 buildTools: "30.0.2",
                 minSdk    : 21,
                 targetSdk : 30,
-                dokka     : "1.4.10.2"
+                dokka     : "1.4.20-multimodule-dev-7"
         ]
 
         versions = [
@@ -39,6 +39,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev' }
     }
 
     dependencies {
@@ -59,7 +60,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        // maven { url "https://dl.bintray.com/mikepenz/mptest/" }
+        maven { url 'https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev' }
     }
 }
 

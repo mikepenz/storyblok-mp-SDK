@@ -71,16 +71,22 @@ afterEvaluate {
                 }
             }
         }
-    }
 
-    project.publishing.publications.all {
-        // rename artifacts
-        if (!(it.name.contains("mavenProject") && it.name == "library")) {
-            if (it.name.contains('metadata')) {
+        publications.all {
+            if (it.name.contains('kotlinMultiplatform') || it.name.contains('mavenProject')) {
                 artifactId = "$POM_ARTIFACT_ID"
+                apply from: "$rootDir/gradle/publish-mpp-root-module-in-platform.gradle"
+                publishPlatformArtifactsInRootModule(publications["jvm"])
+            } else if (it.name.contains('metadata')) {
+                artifactId = "$POM_ARTIFACT_ID-metadata"
             } else {
                 artifactId = "$POM_ARTIFACT_ID-$name"
+            }
+
+            if (name == "jvm" || name == "android") {
                 artifact javadocJar
+            } else if (name != 'kotlinMultiplatform' && name != "mavenProject") {
+                artifact stubJavadoc
             }
         }
     }

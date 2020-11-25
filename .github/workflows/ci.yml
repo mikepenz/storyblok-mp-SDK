@@ -77,7 +77,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           ./gradlew build -x test -x lint
-          ./gradlew library:bintrayUpload -x test -x lint -Plibrary_only --no-configure-on-demand --no-parallel
+          ./gradlew library:bintrayUpload -x test -x lint --no-configure-on-demand --no-parallel
         env:
           BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
           BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
