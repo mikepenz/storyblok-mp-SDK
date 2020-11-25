@@ -5,10 +5,8 @@ plugins {
     id "com.mikepenz.aboutlibraries.plugin"
 }
 
-//wrap with try and catch so the build is working even if the signing stuff is missing
-try {
-    apply from: '../../../signing.gradle'
-} catch (ex) {
+if (getSigningFile() != null) {
+    apply from: "${getSigningFile()}"
 }
 
 android {
@@ -29,18 +27,18 @@ android {
 
     buildTypes {
         debug {
-            versionNameSuffix "-DEBUG"
-            try {
+            if (getSigningFile() != null) {
                 signingConfig signingConfigs.debug
-            } catch (ex) {
             }
+
+            versionNameSuffix "-DEBUG"
             minifyEnabled false
         }
         release {
-            try {
+            if (getSigningFile() != null) {
                 signingConfig signingConfigs.release
-            } catch (ex) {
             }
+
             zipAlignEnabled true
             minifyEnabled false
         }
