@@ -30,7 +30,9 @@ buildscript {
                 // ktx
                 activityKtx         : "1.1.0",
                 lifecycleKtx        : "2.2.0",
-                viewModelKtx        : "2.2.0"
+                viewModelKtx        : "2.2.0",
+                // other
+                detekt              : '1.14.2',
         ]
     }
 
@@ -43,6 +45,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:4.2.0-alpha16'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detekt}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${setup.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${setup.kotlin}"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${setup.dokka}"
@@ -57,5 +60,13 @@ allprojects {
         jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         // maven { url "https://dl.bintray.com/mikepenz/mptest/" }
+    }
+}
+
+subprojects {
+    apply from: '../detekt.gradle'
+
+    dependencies {
+        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"
     }
 }
