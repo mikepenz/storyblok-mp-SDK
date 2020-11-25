@@ -27,6 +27,7 @@ buildscript {
                 materialdrawer      : '8.2.0',
                 aboutLibraries      : '8.6.2',
                 ktor                : "1.4.2",
+                kermit              : "0.1.8",
                 kotlinxSerialization: "1.0.1",
                 kotlinCoroutines    : "1.4.1",
                 // ktx

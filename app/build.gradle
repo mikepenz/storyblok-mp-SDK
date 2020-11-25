@@ -78,7 +78,7 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':library')
+    implementation project(path: ':sample-common')
     // implementation "com.mikepenz:storyblok-mp-sdk-android:0.0.6"
 
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
