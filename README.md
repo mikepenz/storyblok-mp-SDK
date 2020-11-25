@@ -109,21 +109,25 @@ client.fetchCurrentSpace()
 ### Load a list of datasources
 ```kotlin
 client.fetchDatasources()
+// All storyblock params are supported, see javadoc for more information
 ```
 
 ### Load a map of datasource entries
 ```kotlin
 client.fetchDatasourceEntries()
+// All storyblock params are supported, see javadoc for more information
 ```
 
 ### Load a list of map of links with their uuid as key
 ```kotlin
 client.fetchLinks()
+// All storyblock params are supported, see javadoc for more information
 ```
 
 ### Load a list of tags
 ```kotlin
 client.fetchTags()
+// All storyblock params are supported, see javadoc for more information
 ```
 
 
