@@ -36,100 +36,48 @@ kotlin {
         }
         fromPreset(presets.android, "android")
         fromPreset(presets.jvm, "jvm")
-        fromPreset(presets.js, "js")
+        fromPreset(presets.js, "js") {
+            browser {
+            }
+        }
     }
 
     cocoapods {
         summary = "Kotlin multiplatform storyblok SDK"
         homepage = "https://github.com/mikepenz/Storyblok-Android-SDK"
+        authors = "Mike Penz"
+        license = "Apache 2.0"
     }
+}
 
-    sourceSets {
-        commonMain.dependencies {
-            // Kotlin
-            implementation "org.jetbrains.kotlin:kotlin-stdlib-common:${setup.kotlin}"
+dependencies {
+    // Kotlin
+    commonMainImplementation "org.jetbrains.kotlin:kotlin-stdlib-common:${setup.kotlin}"
+    androidMainImplementation "org.jetbrains.kotlin:kotlin-stdlib:${setup.kotlin}"
 
-            // Coroutines
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:${versions.kotlinCoroutines}"
+    jvmMainImplementation "org.jetbrains.kotlin:kotlin-stdlib:${setup.kotlin}"
 
-            // Ktor
-            implementation "io.ktor:ktor-client-core:${versions.ktor}"
-            implementation "io.ktor:ktor-client-json:${versions.ktor}"
-            implementation "io.ktor:ktor-client-logging:${versions.ktor}"
-            implementation "io.ktor:ktor-client-serialization:${versions.ktor}"
+    // Coroutines
+    commonMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
 
-            // Serialize
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:${versions.kotlinxSerialization}"
-        }
+    androidMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlinCoroutines}"
+    jvmMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
+    //iosMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${versions.kotlinCoroutines}"
+    jsMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${versions.kotlinCoroutines}"
 
-        androidMain.dependencies {
-            // Kotlin
-            implementation "org.jetbrains.kotlin:kotlin-stdlib:${setup.kotlin}"
+    // Ktor
+    commonMainImplementation "io.ktor:ktor-client-core:${versions.ktor}"
+    commonMainImplementation "io.ktor:ktor-client-json:${versions.ktor}"
+    commonMainImplementation "io.ktor:ktor-client-logging:${versions.ktor}"
+    commonMainImplementation "io.ktor:ktor-client-serialization:${versions.ktor}"
 
-            // Coroutines
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlinCoroutines}"
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
+    androidMainImplementation "io.ktor:ktor-client-android:${versions.ktor}"
+    jvmMainImplementation "io.ktor:ktor-client-apache:${versions.ktor}"
+    iosMainImplementation "io.ktor:ktor-client-ios:${versions.ktor}"
+    jsMainImplementation "io.ktor:ktor-client-js:${versions.ktor}"
 
-            // Ktor
-            implementation "io.ktor:ktor-client-android:${versions.ktor}"
-            implementation "io.ktor:ktor-client-core-jvm:${versions.ktor}"
-            implementation "io.ktor:ktor-client-json-jvm:${versions.ktor}"
-            implementation "io.ktor:ktor-client-logging-jvm:${versions.ktor}"
-            implementation "io.ktor:ktor-client-serialization-jvm:${versions.ktor}"
-
-            // Serialize
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.kotlinxSerialization}"
-        }
-
-        jvmMain.dependencies {
-            // Kotlin
-            implementation "org.jetbrains.kotlin:kotlin-stdlib:${setup.kotlin}"
-
-            // Coroutines
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
-
-            // Ktor
-            implementation "io.ktor:ktor-client-apache:${versions.ktor}"
-            implementation "io.ktor:ktor-client-core-jvm:${versions.ktor}"
-            implementation "io.ktor:ktor-client-json-jvm:${versions.ktor}"
-            implementation "io.ktor:ktor-client-logging-jvm:${versions.ktor}"
-            implementation "io.ktor:ktor-client-serialization-jvm:${versions.ktor}"
-            implementation "io.ktor:ktor-client-apache:${versions.ktor}"
-
-            // Serialize
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${versions.kotlinxSerialization}"
-        }
-
-        iosMain.dependencies {
-            // Coroutines
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${versions.kotlinCoroutines}"
-
-            // Ktor
-            implementation "io.ktor:ktor-client-ios:${versions.ktor}"
-            implementation "io.ktor:ktor-client-core-native:${versions.ktor}"
-            implementation "io.ktor:ktor-client-json-native:${versions.ktor}"
-            implementation "io.ktor:ktor-client-logging-native:${versions.ktor}"
-            implementation "io.ktor:ktor-client-serialization-native:${versions.ktor}"
-
-            // Serialize
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:${versions.kotlinxSerialization}"
-        }
-
-        jsMain.dependencies {
-            // Coroutines
-            implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${versions.kotlinCoroutines}"
-
-            // Ktor
-            implementation "io.ktor:ktor-client-js:${versions.ktor}"
-            implementation "io.ktor:ktor-client-core-js:${versions.ktor}"
-            implementation "io.ktor:ktor-client-json-js:${versions.ktor}"
-            implementation "io.ktor:ktor-client-logging-js:${versions.ktor}"
-            implementation "io.ktor:ktor-client-serialization-js:${versions.ktor}"
-
-            // Serialize
-            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:${versions.kotlinxSerialization}"
-        }
-    }
+    // Serialize
+    commonMainImplementation "org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.kotlinxSerialization}"
 }
 
 compileKotlinJs {
@@ -142,18 +90,13 @@ configurations {
     compileClasspath
 }
 
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/dokka"
-
-    configuration {
-        targets = ["Android", "JVM", "iOS", "JS"]
+dokkaHtml.configure {
+    dokkaSourceSets {
+        configureEach {
+            noAndroidSdkLink.set(false)
+            outputDirectory.set(buildDir.resolve("dokka"))
+        }
     }
-}
-
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/javadoc"
 }
 
 task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {

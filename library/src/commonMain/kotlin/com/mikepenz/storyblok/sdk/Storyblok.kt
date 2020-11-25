@@ -3,19 +3,12 @@ package com.mikepenz.storyblok.sdk
 import com.mikepenz.storyblok.sdk.http.provideClient
 import com.mikepenz.storyblok.sdk.model.*
 import com.mikepenz.storyblok.sdk.utils.appendNonNull
-import io.ktor.client.HttpClient
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.get
-import io.ktor.client.request.header
-import io.ktor.http.ParametersBuilder
-import io.ktor.http.URLBuilder
-import io.ktor.http.URLProtocol
-import io.ktor.http.Url
+import io.ktor.client.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.json.serializer.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 /**
  * This class is the main API class to do all the requests on the Storyblok API.
@@ -31,7 +24,10 @@ class Storyblok constructor(
          */
         private val configureClient: HttpClientConfig<*>.() -> Unit = {
             install(JsonFeature) {
-                serializer = KotlinxSerializer(Json(JsonConfiguration(strictMode = false, prettyPrint = true)))
+                serializer = KotlinxSerializer(Json(builderAction = {
+                    ignoreUnknownKeys = true
+                    prettyPrint = true
+                }))
             }
         }
 ) {
@@ -45,18 +41,22 @@ class Storyblok constructor(
      * Defines if the requests shall be made in the edit mode
      */
     var editMode = false
+
     /**
      * The protocol to use for the requests
      */
     var apiProtocol = API_PROTOCOL
+
     /**
      * The endpoint to call for the requests
      */
     var apiEndpoint = API_ENDPOINT
+
     /**
      * The current API version to use for the requests
      */
     var apiVersion = API_VERSION
+
     /**
      * The requestBuilder to modify requests constructed, allows to add additional headers, ...
      */
