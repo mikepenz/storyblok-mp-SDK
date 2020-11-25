@@ -40,6 +40,7 @@ kotlin {
             browser {
             }
         }
+        fromPreset(presets.macosX64, "macos")
     }
 
     android {
@@ -78,6 +79,7 @@ dependencies {
     androidMainImplementation "io.ktor:ktor-client-android:${versions.ktor}"
     jvmMainImplementation "io.ktor:ktor-client-apache:${versions.ktor}"
     iosMainImplementation "io.ktor:ktor-client-ios:${versions.ktor}"
+    macosMainImplementation "io.ktor:ktor-client-curl:${versions.ktor}"
     jsMainImplementation "io.ktor:ktor-client-js:${versions.ktor}"
 
     // Serialize
