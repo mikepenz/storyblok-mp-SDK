@@ -15,10 +15,12 @@ open class Story {
      * Numeric id
      */
     var id: Long = 0
+
     /**
      * Generated uuid string
      */
     var uuid: String? = null
+
     /**
      * The name you give this story
      */
@@ -34,6 +36,12 @@ open class Story {
      */
     @SerialName("full_slug")
     var fullSlug: String? = null
+
+    /**
+     * Contains the full slug of the default language if the app Translatable Slugs is installed
+     */
+    @SerialName("default_full_slug")
+    var defaultFullSlug: String? = null
 
     /**
      * Creation date (Format: YYYY-mm-dd HH:MM)
@@ -58,6 +66,9 @@ open class Story {
      */
     var content: JsonObject? = null
 
+    /**
+     *
+     */
     @SerialName("sort_by_date")
     var sortByDate: Boolean? = null
 
@@ -91,7 +102,13 @@ open class Story {
      * Array of alternate objects
      */
     @SerialName("alternates")
-    var alternates: List<String>? = null
+    var alternates: List<JsonObject>? = null
+
+    /**
+     * Array of alternate objects
+     */
+    @SerialName("translated_slugs")
+    var translatedSlugs: List<JsonObject>? = null
 
     /**
      * Id of your content stage (default: null)
