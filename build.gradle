@@ -21,9 +21,10 @@ buildscript {
                 recyclerView        : '1.1.0',
                 cardView            : '1.0.0',
                 okhttp              : '3.7.0',
-                fastadapter         : '4.1.2',
-                materialize         : '1.2.1',
-                materialdrawer      : '7.0.0',
+                iconics             : "5.1.1",
+                fastadapter         : '5.3.1',
+                materialdrawer      : '8.2.0',
+                aboutLibraries      : '8.6.2',
                 ktor                : "1.4.2",
                 kotlinxSerialization: "1.0.1",
                 kotlinCoroutines    : "1.4.1",
@@ -39,6 +40,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        gradlePluginPortal()
         maven { url 'https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev' }
     }
 
@@ -50,6 +52,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${setup.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${setup.kotlin}"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${setup.dokka}"
+        classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:${versions.aboutLibraries}"
     }
 }
 

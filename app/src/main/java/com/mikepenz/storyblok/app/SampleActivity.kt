@@ -1,32 +1,37 @@
 package com.mikepenz.storyblok.app
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
+import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ModelAdapter
-import com.mikepenz.materialdrawer.AccountHeaderBuilder
-import com.mikepenz.materialdrawer.Drawer
-import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.iconics.typeface.library.materialdesigniconic.MaterialDesignIconic
+import com.mikepenz.materialdrawer.holder.ImageHolder
+import com.mikepenz.materialdrawer.iconics.iconicsIcon
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
+import com.mikepenz.materialdrawer.model.interfaces.iconRes
+import com.mikepenz.materialdrawer.model.interfaces.nameRes
+import com.mikepenz.materialdrawer.util.addItems
+import com.mikepenz.materialdrawer.widget.AccountHeaderView
+import com.mikepenz.storyblok.app.databinding.ActivityMainBinding
 import com.mikepenz.storyblok.app.items.SimpleItem
 import com.mikepenz.storyblok.app.viewmodel.SampleViewModel
 import com.mikepenz.storyblok.sdk.model.Story
 import kotlinx.android.synthetic.main.activity_main.*
 
 class SampleActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var headerView: AccountHeaderView
+    private lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
-    //save our header or result
-    private lateinit var result: Drawer
     //save our FastAdapter
     private lateinit var fastAdapter: FastAdapter<SimpleItem>
     private lateinit var modelAdapter: ModelAdapter<Story, SimpleItem>
@@ -36,49 +41,59 @@ class SampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //create the activity
         super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater).also {
+            setContentView(it.root)
+        }
 
         // Handle Toolbar
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        supportActionBar?.setHomeButtonEnabled(true)
 
-        val header = AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.header_background)
-                .build()
+        actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, binding.toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
+        binding.root.addDrawerListener(actionBarDrawerToggle)
+
+        headerView = AccountHeaderView(this).apply {
+            attachToSliderView(binding.slider)
+            headerBackground = ImageHolder(R.drawable.header_background)
+            withSavedInstance(savedInstanceState)
+        }
 
         //Create the drawer
-        result = DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withAccountHeader(header)
-                .withHasStableIds(true)
-                .withSavedInstance(savedInstanceState)
-                .withShowDrawerOnFirstLaunch(true)
-                .addDrawerItems(
-                        PrimaryDrawerItem().withName(R.string.storyblok).withSelectable(false).withIdentifier(10).withIcon(AppCompatResources.getDrawable(this, R.drawable.ico_storyblok)).withIconTintingEnabled(true)
-                        //PrimaryDrawerItem().withName(R.string.open_source).withSelectable(false).withIdentifier(100).withIcon(MaterialDesignIconic.Icon.gmi_github)
-                )
-                .withOnDrawerItemClickListener(object : Drawer.OnDrawerItemClickListener {
-                    override fun onItemClick(view: View?, position: Int, drawerItem: IDrawerItem<*>): Boolean {
-                        if (drawerItem?.identifier == 10L) {
-                            startActivity(Intent(Intent.ACTION_VIEW).apply { data = Uri.parse("https://www.storyblok.com/") })
-                        } else if (drawerItem?.identifier == 100L) {
-                            val intent = LibsBuilder()
-                                    .withFields(R.string::class.java.fields)
-                                    .withActivityTitle(getString(R.string.open_source))
-                                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                                    .withAboutIconShown(true)
-                                    .withVersionShown(true)
-                                    .withAboutVersionShown(true)
-                                    .intent(this@SampleActivity)
-                            this@SampleActivity.startActivity(intent)
-                        }
-                        return false
+        binding.slider.apply {
+            setSavedInstance(savedInstanceState)
+            addItems(
+                    PrimaryDrawerItem().apply {
+                        nameRes = R.string.storyblok
+                        isSelectable = false
+                        identifier = 10
+                        iconRes = R.drawable.ico_storyblok
+                        isIconTinted = true
+                    },
+                    PrimaryDrawerItem().apply {
+                        nameRes = R.string.open_source
+                        isSelectable = false
+                        identifier = 100
+                        iconicsIcon = MaterialDesignIconic.Icon.gmi_github
                     }
-                })
-                .withSelectedItemByPosition(-1)
-                .build()
+            )
+            selectedItemPosition = -1
+            onDrawerItemClickListener = { _, drawerItem, _ ->
+                if (drawerItem.identifier == 10L) {
+                    startActivity(Intent(Intent.ACTION_VIEW).apply { data = Uri.parse("https://www.storyblok.com/") })
+                } else if (drawerItem.identifier == 100L) {
+                    val intent = LibsBuilder()
+                            .withFields(R.string::class.java.fields)
+                            .withActivityTitle(getString(R.string.open_source))
+                            .withAboutIconShown(true)
+                            .withVersionShown(true)
+                            .withAboutVersionShown(true)
+                            .intent(this@SampleActivity)
+                    this@SampleActivity.startActivity(intent)
+                }
+                false
+            }
+        }
 
         //create our FastAdapter which will manage everything
         modelAdapter = ModelAdapter {
@@ -101,10 +116,27 @@ class SampleActivity : AppCompatActivity() {
         })
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        actionBarDrawerToggle.onConfigurationChanged(newConfig)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        actionBarDrawerToggle.syncState()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onSaveInstanceState(state: Bundle) {
         var outState = state
         //add the values which need to be saved from the drawer to the bundle
-        outState = result.saveInstanceState(outState)
+        outState = binding.slider.saveInstanceState(outState)
         //add the values which need to be saved from the adapter to the bundel
         outState = fastAdapter.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
@@ -112,8 +144,8 @@ class SampleActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
-        if (result.isDrawerOpen) {
-            result.closeDrawer()
+        if (binding.root.isDrawerOpen(binding.slider)) {
+            binding.root.closeDrawer(binding.slider)
         } else {
             super.onBackPressed()
         }
