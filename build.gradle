@@ -29,7 +29,7 @@ buildscript {
                 ktor                : "1.4.2",
                 kermit              : "0.1.8",
                 kotlinxSerialization: "1.0.1",
-                kotlinCoroutines    : "1.4.1",
+                kotlinCoroutines    : "1.4.1-native-mt",
                 // ktx
                 activityKtx         : "1.1.0",
                 lifecycleKtx        : "2.2.0",
