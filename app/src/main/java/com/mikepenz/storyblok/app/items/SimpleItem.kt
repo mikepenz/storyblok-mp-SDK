@@ -44,12 +44,12 @@ class SimpleItem : AbstractItem<SimpleItem.ViewHolder>() {
     /**
      * binds the data of this item onto the viewHolder
      *
-     * @param viewHolder the viewHolder of this item
+     * @param holder the viewHolder of this item
      */
-    override fun bindView(viewHolder: ViewHolder, payloads: MutableList<Any>) {
-        super.bindView(viewHolder, payloads)
-        viewHolder.name.text = name
-        viewHolder.description.text = description
+    override fun bindView(holder: ViewHolder, payloads: List<Any>) {
+        super.bindView(holder, payloads)
+        holder.name.text = name
+        holder.description.text = description
     }
 
     override fun unbindView(holder: ViewHolder) {
