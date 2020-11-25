@@ -32,9 +32,7 @@ afterEvaluate {
         classifier = 'sources'
         from android.sourceSets.main.java.source
     }
-}
 
-afterEvaluate {
     ext.addDependency = { dependencyNode, group, name, version ->
         dependencyNode.appendNode('groupId', group)
         dependencyNode.appendNode('artifactId', name)
@@ -43,51 +41,26 @@ afterEvaluate {
     }
 
     publishing {
-        publications {
-            android(MavenPublication) {
-                groupId GROUP
-                artifactId POM_ARTIFACT_ID
-                version project.release.versionName
-                artifact("$buildDir/outputs/aar/$POM_ARTIFACT_ID-release.aar")
-                artifact androidSourcesJar
-
-                pom.withXml {
-                    asNode().appendNode('name', POM_NAME)
-                    asNode().appendNode('description', POM_DESCRIPTION)
-                    asNode().appendNode('url', POM_SCM_URL)
-                    def dependenciesNode = asNode().appendNode('dependencies')
-                    configurations.implementation.allDependencies.each {
-                        // Ensure dependencies such as fileTree are not included.
-                        if (it.name != 'unspecified') {
-                            def dependencyNode = dependenciesNode.appendNode('dependency')
-                            if (it.version != "unspecified") {
-                                addDependency(dependencyNode, it.group, it.name, it.version)
-                            } else {
-                                addDependency(dependencyNode, it.getDependencyProject().findProperty("GROUP"), it.getDependencyProject().findProperty("POM_ARTIFACT_ID"), project.release.versionName)
-                            }
-                        }
-                    }
-                    asNode().children().last() + pomConfig
-                }
-            }
-        }
-
         publications.all {
-            if (it.name.contains('kotlinMultiplatform') || it.name.contains('mavenProject')) {
+            if (it.name.contains('kotlinMultiplatform')) {
                 artifactId = "$POM_ARTIFACT_ID"
-                apply from: "$rootDir/gradle/publish-mpp-root-module-in-platform.gradle"
+                apply from: "${rootDir}/gradle/publish-mpp-root-module-in-platform.gradle"
                 publishPlatformArtifactsInRootModule(publications["jvm"])
             } else if (it.name.contains('metadata')) {
                 artifactId = "$POM_ARTIFACT_ID-metadata"
+            } else if (it.name.contains('android')) {
+                artifactId = "$POM_ARTIFACT_ID-android"
             } else {
-                artifactId = "$POM_ARTIFACT_ID-$name"
+                artifactId = "$POM_ARTIFACT_ID-${it.name}"
             }
 
-            if (name == "jvm" || name == "android") {
+            if (it.name == "jvm" || it.name.contains("android")) {
                 artifact javadocJar
-            } else if (name != 'kotlinMultiplatform' && name != "mavenProject") {
+            } else if (it.name != 'kotlinMultiplatform') {
                 artifact stubJavadoc
             }
+
+            pom.withXml(configureMavenCentralMetadata)
         }
     }
 }
@@ -105,7 +78,7 @@ bintrayUpload.doFirst {
     publications = publishing.publications.collect {
         it.name
     }.findAll {
-        it != "kotlinMultiplatform"
+        it != "mavenProject"
     }
 }
 

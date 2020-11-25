@@ -27,14 +27,9 @@ project.ext.pomConfig = {
 }
 
 project.ext.configureMavenCentralMetadata = { pom ->
-    def variantName = "${project.name}"
-    if (variantName == "library") {
-        variantName = POM_ARTIFACT_ID
-    }
-
     def root = asNode()
-    root.appendNode('name', variantName)
-    root.appendNode('description', POM_DESCRIPTION)
-    root.appendNode('url', POM_URL)
+    asNode().appendNode('name', POM_NAME)
+    asNode().appendNode('description', POM_DESCRIPTION)
+    asNode().appendNode('url', POM_SCM_URL)
     root.children().last() + pomConfig
 }

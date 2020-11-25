@@ -42,6 +42,10 @@ kotlin {
         }
     }
 
+    android {
+        publishLibraryVariants("release")
+    }
+
     cocoapods {
         summary = "Kotlin multiplatform storyblok SDK"
         homepage = "https://github.com/mikepenz/Storyblok-Android-SDK"
