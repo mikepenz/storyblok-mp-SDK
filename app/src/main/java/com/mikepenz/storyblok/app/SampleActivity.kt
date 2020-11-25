@@ -67,7 +67,7 @@ class SampleActivity : AppCompatActivity() {
                         nameRes = R.string.storyblok
                         isSelectable = false
                         identifier = 10
-                        iconRes = R.drawable.ico_storyblok
+                        iconRes = R.drawable.ic_storyblok
                         isIconTinted = true
                     },
                     PrimaryDrawerItem().apply {
@@ -87,6 +87,7 @@ class SampleActivity : AppCompatActivity() {
                             .withActivityTitle(getString(R.string.open_source))
                             .withAboutIconShown(true)
                             .withVersionShown(true)
+                            .withLicenseShown(true)
                             .withAboutVersionShown(true)
                             .intent(this@SampleActivity)
                     this@SampleActivity.startActivity(intent)

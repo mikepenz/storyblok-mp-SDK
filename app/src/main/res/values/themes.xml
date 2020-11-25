@@ -10,6 +10,9 @@
         <item name="materialDrawerStyle">@style/Widget.MaterialDrawerStyle</item>
         <item name="materialDrawerHeaderStyle">@style/Widget.MaterialDrawerHeaderStyle</item>
 
+        <item name="toolbarStyle">@style/CustomToolbarStyle</item>
+        <item name="colorControlNormal">@android:color/white</item>
+
         <item name="android:windowTranslucentStatus">true</item>
 
         <!-- CAB :D -->
