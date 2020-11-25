@@ -65,6 +65,8 @@ android {
     }
 
     packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/storyblok-mp-sdk.kotlin_module'
         exclude 'META-INF/ktor-client-serialization.kotlin_module'
         exclude 'META-INF/ktor-http.kotlin_module'
         exclude 'META-INF/ktor-utils.kotlin_module'
@@ -80,7 +82,7 @@ android {
 
 dependencies {
     implementation project(path: ':library')
-    // implementation "com.mikepenz:storyblok-mp-sdk-android:0.0.1"
+    // implementation "com.mikepenz:storyblok-mp-sdk-android:0.0.6"
 
     implementation "androidx.appcompat:appcompat:${versions.appcompat}"
     implementation "androidx.recyclerview:recyclerview:${versions.recyclerView}"
