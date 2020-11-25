@@ -25,7 +25,6 @@ import com.mikepenz.storyblok.app.databinding.ActivityMainBinding
 import com.mikepenz.storyblok.app.items.SimpleItem
 import com.mikepenz.storyblok.app.viewmodel.SampleViewModel
 import com.mikepenz.storyblok.sdk.model.Story
-import kotlinx.android.synthetic.main.activity_main.*
 
 class SampleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -46,7 +45,7 @@ class SampleActivity : AppCompatActivity() {
         }
 
         // Handle Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setHomeButtonEnabled(true)
 
@@ -104,8 +103,8 @@ class SampleActivity : AppCompatActivity() {
 
         //configure our fastAdapter
         //get our recyclerView and do basic setup
-        rv.layoutManager = LinearLayoutManager(this)
-        rv.adapter = fastAdapter
+        binding.rv.layoutManager = LinearLayoutManager(this)
+        binding.rv.adapter = fastAdapter
         fastAdapter.withSavedInstanceState(savedInstanceState)
     }
 
