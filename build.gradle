@@ -1,9 +1,10 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    apply from: 'configurations.gradle'
+
     ext {
         release = [
-                versionName: "0.1.0",
-                versionCode: 100
+                versionName: "0.2.0",
+                versionCode: 200
         ]
 
         setup = [
@@ -26,6 +27,7 @@ buildscript {
                 materialdrawer      : '8.2.0',
                 aboutLibraries      : '8.6.2',
                 ktor                : "1.4.2",
+                kermit              : "0.1.8",
                 kotlinxSerialization: "1.0.1",
                 kotlinCoroutines    : "1.4.1",
                 // ktx

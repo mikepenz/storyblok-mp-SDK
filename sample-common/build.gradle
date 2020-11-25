@@ -1,0 +1,66 @@
+apply plugin: "kotlin-multiplatform"
+apply plugin: 'kotlinx-serialization'
+apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.native.cocoapods'
+
+version = release.versionName
+
+android {
+    compileSdkVersion setup.compileSdk
+    buildToolsVersion setup.buildTools
+
+    defaultConfig {
+        minSdkVersion setup.minSdk
+        targetSdkVersion setup.targetSdk
+        versionCode release.versionCode
+        versionName release.versionName
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'src/androidMain/AndroidManifest.xml'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+kotlin {
+    targets {
+        final def iOSTarget = System.getenv("SDK_NAME")?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
+        fromPreset(iOSTarget, "ios") {
+            binaries {
+                framework("library")
+            }
+        }
+        fromPreset(presets.android, "android")
+        fromPreset(presets.jvm, "jvm")
+        fromPreset(presets.js, "js") {
+            browser {
+            }
+        }
+        fromPreset(presets.macosX64, "macos")
+    }
+
+    cocoapods {
+        summary = "Common module for sample multiplatform showcase"
+        homepage = "https://github.com/mikepenz/storyblok-mp-SDK"
+        authors = "Mike Penz"
+        license = "Apache 2.0"
+    }
+}
+
+dependencies {
+    commonMainApi(project(":library"))
+
+    // logger
+    commonMainImplementation "co.touchlab:kermit:${versions.kermit}"
+
+    // Coroutines
+    commonMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
+}

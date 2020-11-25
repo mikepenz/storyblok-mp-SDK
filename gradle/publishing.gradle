@@ -23,23 +23,13 @@ task emptyJar(type: Jar) {
 }
 
 afterEvaluate {
-    task sourcesJar(type: Jar) {
+    task mainSourcesJar(type: Jar) {
         classifier = 'sources'
         from kotlin.sourceSets.commonMain.kotlin
     }
+}
 
-    task androidSourcesJar(type: Jar) {
-        classifier = 'sources'
-        from android.sourceSets.main.java.source
-    }
-
-    ext.addDependency = { dependencyNode, group, name, version ->
-        dependencyNode.appendNode('groupId', group)
-        dependencyNode.appendNode('artifactId', name)
-        dependencyNode.appendNode('version', version)
-        dependencyNode.appendNode('scope', "compile")
-    }
-
+afterEvaluate {
     publishing {
         publications.all {
             if (it.name.contains('kotlinMultiplatform')) {
