@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SampleViewModel : ViewModel() {
-    val client = Storyblok(BuildConfig.STORYBLOK_TOKEN)
+    private val client = Storyblok(BuildConfig.STORYBLOK_TOKEN)
 
     val stories = MutableLiveData<List<Story>>()
 

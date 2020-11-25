@@ -3,7 +3,7 @@
     <item android:drawable="@color/colorAccent" />
     <item android:gravity="center">
         <inset
-            android:drawable="@drawable/ico_storyblok"
+            android:drawable="@drawable/ic_storyblok"
             android:inset="48dp" />
     </item>
 </layer-list>
