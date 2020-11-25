@@ -14,26 +14,30 @@ import kotlinx.serialization.json.Json
  * This class is the main API class to do all the requests on the Storyblok API.
  */
 class Storyblok constructor(
-        /**
-         * The API token used to do the API requests
-         */
+        /** The API token used to do the API requests */
         private val token: String,
+        /** Provide a custom client implementation, not using the default */
+        providedClient: HttpClient? = null,
         /**
          * Creates the [HttpClient]. Overwriting this allows to construct a custom engine, or do further adjustments to the client.
          * Note that it is required to provide a serializer again to parse the data
          */
-        private val configureClient: HttpClientConfig<*>.() -> Unit = {
-            install(JsonFeature) {
+        configureClient: (HttpClientConfig<*>.() -> Unit)? = null
+) {
+
+    constructor(
+            /** The API token used to do the API requests */
+            token: String
+    ) : this(token, null, null)
+
+    private val client by lazy {
+        (providedClient ?: provideClient()).config {
+            (configureClient?.invoke(this) ?: install(JsonFeature) {
                 serializer = KotlinxSerializer(Json(builderAction = {
                     ignoreUnknownKeys = true
                     prettyPrint = true
                 }))
-            }
-        }
-) {
-    private val client by lazy {
-        provideClient().config {
-            configureClient()
+            })
         }
     }
 
@@ -285,9 +289,9 @@ class Storyblok constructor(
     companion object {
         private val API_PROTOCOL = URLProtocol.HTTPS
         private const val API_ENDPOINT = "api.storyblok.com"
-        private const val API_VERSION = "v1"
+        private const val API_VERSION = "v2"
 
-        private const val SDK_VERSION = "0.1"
+        private const val SDK_VERSION = "0.1.0"
         private const val SDK_USER_AGENT = "storyblok-sdk-android/$SDK_VERSION"
 
         private const val VERSION_PUBLISHED = "published"
