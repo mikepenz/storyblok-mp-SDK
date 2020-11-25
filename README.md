@@ -33,7 +33,7 @@
 
 -------
 
-# About Storyblok
+## About Storyblok
 - **WEBSITE** https://www.storyblok.com/
 - **API DOC** https://www.storyblok.com/docs/api/content-delivery
 
@@ -95,6 +95,7 @@ dependencies {
 </p>
 </details>
 
+-------
 
 ## Usage
 ### Init client
