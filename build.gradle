@@ -7,30 +7,30 @@ buildscript {
         ]
 
         setup = [
-                kotlin    : '1.3.61',
-                compileSdk: 29,
-                buildTools: "29.0.2",
+                kotlin    : '1.4.20',
+                compileSdk: 30,
+                buildTools: "30.0.2",
                 minSdk    : 21,
-                targetSdk : 29,
-                dokka     : "0.10.0"
+                targetSdk : 30,
+                dokka     : "1.4.10.2"
         ]
 
         versions = [
                 annotation          : '1.0.1',
-                appcompat           : '1.1.0',
+                appcompat           : '1.2.0',
                 recyclerView        : '1.1.0',
                 cardView            : '1.0.0',
                 okhttp              : '3.7.0',
                 fastadapter         : '4.1.2',
                 materialize         : '1.2.1',
                 materialdrawer      : '7.0.0',
-                ktor                : "1.3.0-rc",
-                kotlinxSerialization: "0.14.0",
-                kotlinCoroutines    : "1.3.3",
+                ktor                : "1.4.2",
+                kotlinxSerialization: "1.0.1",
+                kotlinCoroutines    : "1.4.1",
                 // ktx
-                activityKtx         : "1.1.0-rc03",
-                lifecycleKtx        : "2.2.0-rc03",
-                viewModelKtx        : "2.2.0-rc03"
+                activityKtx         : "1.1.0",
+                lifecycleKtx        : "2.2.0",
+                viewModelKtx        : "2.2.0"
         ]
     }
 
@@ -40,9 +40,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0-alpha06'
+        classpath 'com.android.tools.build:gradle:4.2.0-alpha16'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${setup.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${setup.kotlin}"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${setup.dokka}"
