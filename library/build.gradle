@@ -28,19 +28,25 @@ android {
 
 kotlin {
     targets {
-        final def iOSTarget = System.getenv("SDK_NAME")?.startsWith("iphoneos") ? presets.iosArm64 : presets.iosX64
-        fromPreset(iOSTarget, "ios") {
-            binaries {
-                framework("library")
-            }
-        }
-        fromPreset(presets.android, "android")
-        fromPreset(presets.jvm, "jvm")
-        fromPreset(presets.js, "js") {
+        targetFromPreset(presets.linuxX64, 'linuxX64')
+        //targetFromPreset(presets.mingwX64, 'mingwX64')
+        targetFromPreset(presets.macosX64, 'macosX64')
+
+        targetFromPreset(presets.iosArm64, 'iosArm64')
+        targetFromPreset(presets.iosArm32, 'iosArm32')
+        targetFromPreset(presets.iosX64, 'iosX64')
+        targetFromPreset(presets.tvosArm64, 'tvosArm64')
+        targetFromPreset(presets.tvosX64, 'tvosX64')
+        targetFromPreset(presets.watchosArm32, 'watchosArm32')
+        targetFromPreset(presets.watchosArm64, 'watchosArm64')
+        targetFromPreset(presets.watchosX86, 'watchosX86')
+
+        targetFromPreset(presets.android, "android")
+        targetFromPreset(presets.jvm, "jvm")
+        targetFromPreset(presets.js, "js") {
             browser {
             }
         }
-        fromPreset(presets.macosX64, "macos")
     }
 
     android {
@@ -53,23 +59,31 @@ kotlin {
         authors = "Mike Penz"
         license = "Apache 2.0"
     }
+
+    sourceSets {
+        desktopMain { dependsOn(commonMain) }
+        linuxX64Main { dependsOn(desktopMain) }
+        //mingwX64Main { dependsOn(desktopMain) }
+        macosX64Main { dependsOn(desktopMain) }
+
+        iosMain { dependsOn(commonMain) }
+        iosArm64Main { dependsOn(iosMain) }
+        iosArm32Main { dependsOn(iosMain) }
+        iosX64Main { dependsOn(iosMain) }
+        tvosArm64Main { dependsOn(iosMain) }
+        tvosX64Main { dependsOn(iosMain) }
+        watchosArm32Main { dependsOn(iosMain) }
+        watchosArm64Main { dependsOn(iosMain) }
+        watchosX86Main { dependsOn(iosMain) }
+    }
 }
 
 dependencies {
     // Kotlin
     commonMainImplementation "org.jetbrains.kotlin:kotlin-stdlib-common:${setup.kotlin}"
-    androidMainImplementation "org.jetbrains.kotlin:kotlin-stdlib:${setup.kotlin}"
-
-    jvmMainImplementation "org.jetbrains.kotlin:kotlin-stdlib:${setup.kotlin}"
 
     // Coroutines
     commonMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
-
-    androidMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlinCoroutines}"
-    jvmMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.kotlinCoroutines}"
-    iosMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${versions.kotlinCoroutines}"
-    macosMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-macosx64:${versions.kotlinCoroutines}"
-    jsMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${versions.kotlinCoroutines}"
 
     // Ktor
     commonMainImplementation "io.ktor:ktor-client-core:${versions.ktor}"
@@ -80,7 +94,7 @@ dependencies {
     androidMainImplementation "io.ktor:ktor-client-android:${versions.ktor}"
     jvmMainImplementation "io.ktor:ktor-client-apache:${versions.ktor}"
     iosMainImplementation "io.ktor:ktor-client-ios:${versions.ktor}"
-    macosMainImplementation "io.ktor:ktor-client-curl:${versions.ktor}"
+    desktopMainImplementation "io.ktor:ktor-client-curl:${versions.ktor}"
     jsMainImplementation "io.ktor:ktor-client-js:${versions.ktor}"
 
     // Serialize
