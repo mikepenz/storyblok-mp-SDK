@@ -75,6 +75,15 @@ android {
         exclude 'META-INF/ktor-client-logging.kotlin_module'
         exclude 'META-INF/ktor-client-core.kotlin_module'
     }
+
+    configurations {
+        androidTestApi {}
+        androidTestDebugApi {}
+        androidTestReleaseApi {}
+        testApi {}
+        testDebugApi {}
+        testReleaseApi {}
+    }
 }
 
 dependencies {
