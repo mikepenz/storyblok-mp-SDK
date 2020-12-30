@@ -13,7 +13,7 @@ buildscript {
                 buildTools: "30.0.2",
                 minSdk    : 21,
                 targetSdk : 30,
-                dokka     : "1.4.20"
+                dokka     : "1.4.20-multimodule-dev-7"
         ]
 
         versions = [
