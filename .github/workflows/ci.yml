@@ -42,7 +42,7 @@ jobs:
       - name: Build Debug
         run: |
           ./gradlew clean || true
-          ./graldew app:assembleDebug --stacktrace
+          ./gradlew app:assembleDebug --stacktrace
 
       - name: Run Lint
         if: github.event_name  == 'pull_request'
