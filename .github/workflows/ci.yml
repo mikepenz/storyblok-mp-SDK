@@ -40,7 +40,9 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Build Debug
-        run: ./gradlew clean app:assembleDebug --stacktrace
+        run: |
+          ./gradlew clean || true
+          ./graldew app:assembleDebug --stacktrace
 
       - name: Run Lint
         if: github.event_name  == 'pull_request'
