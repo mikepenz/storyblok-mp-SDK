@@ -8,12 +8,12 @@ buildscript {
         ]
 
         setup = [
-                kotlin    : '1.4.20',
+                kotlin    : '1.4.21',
                 compileSdk: 30,
                 buildTools: "30.0.2",
                 minSdk    : 21,
                 targetSdk : 30,
-                dokka     : "1.4.20-multimodule-dev-7"
+                dokka     : "1.4.20"
         ]
 
         versions = [
@@ -21,21 +21,21 @@ buildscript {
                 appcompat           : '1.2.0',
                 recyclerView        : '1.1.0',
                 cardView            : '1.0.0',
-                okhttp              : '3.7.0',
-                iconics             : "5.1.1",
-                fastadapter         : '5.3.1',
-                materialdrawer      : '8.2.0',
-                aboutLibraries      : '8.6.2',
-                ktor                : "1.4.2",
+                okhttp              : '4.9.0',
+                iconics             : "5.2.4",
+                fastadapter         : '5.3.2',
+                materialdrawer      : '8.3.1',
+                aboutLibraries      : '8.6.3',
+                ktor                : "1.5.0",
                 kermit              : "0.1.8",
                 kotlinxSerialization: "1.0.1",
-                kotlinCoroutines    : "1.4.1-native-mt",
+                kotlinCoroutines    : "1.4.2-native-mt",
                 // ktx
                 activityKtx         : "1.1.0",
                 lifecycleKtx        : "2.2.0",
                 viewModelKtx        : "2.2.0",
                 // other
-                detekt              : '1.14.2',
+                detekt              : '1.15.0',
         ]
     }
 
@@ -47,8 +47,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0-alpha16'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha03'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detekt}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${setup.kotlin}"

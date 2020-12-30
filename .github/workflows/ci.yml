@@ -17,6 +17,11 @@ jobs:
         with:
           fetch-depth: 100
 
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+          java-package: jdk
+
       - name: Validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
@@ -35,7 +40,9 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Build Debug
-        run: ./gradlew clean app:assembleDebug --stacktrace
+        run: |
+          ./gradlew clean || true
+          ./gradlew app:assembleDebug --stacktrace
 
       - name: Run Lint
         if: github.event_name  == 'pull_request'
