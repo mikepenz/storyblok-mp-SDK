@@ -1,76 +1,84 @@
-/*
- * Copyright 2017-2019 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
- * Copyright 2020 https://github.com/natanfudge
- * Copyright 2020 Modified by Mike Penz to be more flexible
- */
-
-// Configures publishing of Maven artifacts to Bintray
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'signing'
 
-apply from: project.rootProject.file('gradle/mavenMetadata.gradle')
+ext["signing.keyId"] = project.hasProperty('sonatype.gpg.key') ? project.property('sonatype.gpg.key') : System.getenv('SONATYPE_GPG_KEY')
+ext["signing.password"] = project.hasProperty('sonatype.gpg.password') ? project.property('sonatype.gpg.password') : System.getenv('SONATYPE_GPG_PASS')
+ext["signing.secretKeyRingFile"] = project.hasProperty('sonatype.gpg.secretKeyRingFile') ? project.property('sonatype.gpg.secretKeyRingFile') : System.getenv('SONATYPE_GPG_FILE')
 
-task stubSources(type: Jar) {
-    classifier = 'sources'
+@SuppressWarnings("GroovyUnusedDeclaration")
+def getRepositoryUsername() {
+    return project.hasProperty('NEXUS_USERNAME') ? project.property('NEXUS_USERNAME') : System.getenv('NEXUS_USERNAME')
 }
 
-task stubJavadoc(type: Jar) {
-    classifier = 'javadoc'
+@SuppressWarnings("GroovyUnusedDeclaration")
+def getRepositoryPassword() {
+    return project.hasProperty('NEXUS_PASSWORD') ? project.property('NEXUS_PASSWORD') : System.getenv('NEXUS_PASSWORD')
 }
 
-task emptyJar(type: Jar) {
-}
+afterEvaluate { project ->
+    task stubSources(type: Jar) {
+        classifier = 'sources'
+    }
 
-afterEvaluate {
+    task emptyJar(type: Jar) {
+    }
+
     task mainSourcesJar(type: Jar) {
         classifier = 'sources'
         from kotlin.sourceSets.commonMain.kotlin
     }
-}
 
-afterEvaluate {
+    def pomConfig = {
+        licenses {
+            license {
+                name POM_LICENCE_NAME
+                url POM_LICENCE_URL
+                distribution POM_LICENCE_DIST
+            }
+        }
+        developers {
+            developer {
+                id POM_DEVELOPER_ID
+                name POM_DEVELOPER_NAME
+                email 'mikepenz@gmail.com'
+            }
+        }
+        scm {
+            url POM_SCM_URL
+            connection POM_SCM_CONNECTION
+            developerConnection POM_SCM_DEV_CONNECTION
+        }
+    }
+
     publishing {
         publications.all {
-            if (it.name.contains('kotlinMultiplatform')) {
-                artifactId = "$POM_ARTIFACT_ID"
-                apply from: "${rootDir}/gradle/publish-mpp-root-module-in-platform.gradle"
-                publishPlatformArtifactsInRootModule(publications["jvm"])
-            } else if (it.name.contains('metadata')) {
-                artifactId = "$POM_ARTIFACT_ID-metadata"
-            } else if (it.name.contains('android')) {
-                artifactId = "$POM_ARTIFACT_ID-android"
-            } else {
-                artifactId = "$POM_ARTIFACT_ID-${it.name}"
-            }
+            artifact javadocJar
 
-            if (it.name == "jvm" || it.name.contains("android")) {
-                artifact javadocJar
-            } else if (it.name != 'kotlinMultiplatform') {
-                artifact stubJavadoc
+            pom.withXml {
+                asNode().appendNode('name', POM_NAME)
+                asNode().appendNode('description', POM_DESCRIPTION)
+                asNode().appendNode('url', POM_SCM_URL)
+                asNode().children().last() + pomConfig
             }
+        }
 
-            pom.withXml(configureMavenCentralMetadata)
+        repositories {
+            maven {
+                name = "sonatype"
+                def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+                credentials {
+                    username getRepositoryUsername()
+                    password getRepositoryPassword()
+                }
+            }
         }
     }
 }
 
-apply from: project.rootProject.file("gradle/bintray.gradle")
-
-publishing {
-    publications {
-        mavenProject(MavenPublication) {
-        }
-    }
+signing {
+    sign publishing.publications
 }
-
-bintrayUpload.doFirst {
-    publications = publishing.publications.collect {
-        it.name
-    }.findAll {
-        it != "mavenProject"
-    }
-}
-
-// This is required for K/N publishing
-bintrayUpload.dependsOn publishToMavenLocal

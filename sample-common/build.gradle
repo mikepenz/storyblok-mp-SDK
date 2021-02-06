@@ -58,7 +58,7 @@ kotlin {
 }
 
 dependencies {
-    commonMainApi(project(":library"))
+    commonMainApi(project(":storyblok-mp-sdk"))
 
     // logger
     commonMainImplementation "co.touchlab:kermit:${versions.kermit}"
