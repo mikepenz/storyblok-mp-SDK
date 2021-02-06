@@ -8,6 +8,6 @@ pluginManagement {
 include ':app'
 include ':sample-common'
 
-include ':library'
+include ':storyblok-mp-sdk'
 
 enableFeaturePreview("GRADLE_METADATA")
