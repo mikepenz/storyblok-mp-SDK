@@ -25,7 +25,7 @@ buildscript {
                 cardView            : '1.0.0',
                 okhttp              : '4.9.1',
                 iconics             : "5.2.5",
-                fastadapter         : '5.3.3',
+                fastadapter         : '5.3.4',
                 materialdrawer      : '8.3.2',
                 aboutLibraries      : '8.8.1',
                 ktor                : "1.5.0",
