@@ -76,3 +76,7 @@ subprojects {
         detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"
     }
 }
+
+configure(subprojects.findAll {it.name == "storyblok-mp-sdk" }) {
+    apply from: "$rootDir/gradle/publishing.gradle"
+}

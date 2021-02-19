@@ -1,6 +1,7 @@
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
+apply from: project.rootProject.file('gradle/maven-metadata.gradle')
 
 ext["signing.keyId"] = project.hasProperty('sonatype.gpg.key') ? project.property('sonatype.gpg.key') : System.getenv('SONATYPE_GPG_KEY')
 ext["signing.password"] = project.hasProperty('sonatype.gpg.password') ? project.property('sonatype.gpg.password') : System.getenv('SONATYPE_GPG_PASS')
@@ -16,67 +17,67 @@ def getRepositoryPassword() {
     return project.hasProperty('NEXUS_PASSWORD') ? project.property('NEXUS_PASSWORD') : System.getenv('NEXUS_PASSWORD')
 }
 
-afterEvaluate { project ->
-    task stubSources(type: Jar) {
-        classifier = 'sources'
-    }
+task stubJavadoc(type: Jar) {
+    archiveClassifier = 'javadoc'
+}
 
-    task emptyJar(type: Jar) {
-    }
+task stubSources(type: Jar) {
+    classifier = 'sources'
+}
 
+task emptyJar(type: Jar) {
+}
+
+afterEvaluate {
     task mainSourcesJar(type: Jar) {
         classifier = 'sources'
         from kotlin.sourceSets.commonMain.kotlin
     }
+}
 
-    def pomConfig = {
-        licenses {
-            license {
-                name POM_LICENCE_NAME
-                url POM_LICENCE_URL
-                distribution POM_LICENCE_DIST
+afterEvaluate {
+    publishing {
+        def variantName = "${project.name}"
+        publications.all {
+            def type = it.name
+            logger.info("Configuring $type")
+            switch (type) {
+                case 'kotlinMultiplatform':
+                    // With Kotlin 1.4.0, the root module ID has no suffix, but for compatibility with
+                    // the consumers who can't read Gradle module metadata, we publish the JVM artifacts in it
+                    it.artifactId = variantName
+                    apply from: "$rootDir/gradle/publish-mpp-root-module-in-platform.gradle"
+                    publishPlatformArtifactsInRootModule(publications["jvm"])
+                    break
+                case 'metadata':
+                case 'jvm':
+                case 'js':
+                    it.artifactId = "$variantName-$type"
+                    break
             }
-        }
-        developers {
-            developer {
-                id POM_DEVELOPER_ID
-                name POM_DEVELOPER_NAME
-                email 'mikepenz@gmail.com'
-            }
-        }
-        scm {
-            url POM_SCM_URL
-            connection POM_SCM_CONNECTION
-            developerConnection POM_SCM_DEV_CONNECTION
+            logger.info("Artifact id = ${it.artifactId}")
+
+            pom.withXml(configureMavenCentralMetadata)
+
+            // The 'root' module publishes the JVM module's Javadoc JAR as per publishPlatformArtifactsInRootModule, and
+            // every other module should publish an empty Javadoc JAR. TODO: provide proper documentation artifacts?
+            if (name != "kotlinMultiplatform")
+                artifact stubJavadoc
         }
     }
+}
 
-    publishing {
-        publications.all {
-            artifact javadocJar
+publishing {
+    repositories {
+        maven {
+            name = "sonatype"
+            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 
-            pom.withXml {
-                asNode().appendNode('name', POM_NAME)
-                asNode().appendNode('description', POM_DESCRIPTION)
-                asNode().appendNode('url', POM_SCM_URL)
-                asNode().children().last() + pomConfig
-
-                // we want dependencies as compile, to ensure they are transitively resolved
-                asNode().dependencies.'*'.findAll() { it.scope.text() == 'runtime' }.each { it.scope*.value = 'compile' }
-            }
-        }
-
-        repositories {
-            maven {
-                name = "sonatype"
-                def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-                def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-
-                credentials {
-                    username getRepositoryUsername()
-                    password getRepositoryPassword()
-                }
+            credentials {
+                username getRepositoryUsername()
+                password getRepositoryPassword()
             }
         }
     }
