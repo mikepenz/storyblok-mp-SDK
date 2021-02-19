@@ -1,0 +1,29 @@
+def pomConfig = {
+    licenses {
+        license {
+            name POM_LICENCE_NAME
+            url POM_LICENCE_URL
+            distribution POM_LICENCE_DIST
+        }
+    }
+    developers {
+        developer {
+            id POM_DEVELOPER_ID
+            name POM_DEVELOPER_NAME
+            email 'mikepenz@gmail.com'
+        }
+    }
+    scm {
+        url POM_SCM_URL
+        connection POM_SCM_CONNECTION
+        developerConnection POM_SCM_DEV_CONNECTION
+    }
+}
+
+project.ext.configureMavenCentralMetadata = { pom ->
+    def root = asNode()
+    root.appendNode('name', POM_NAME)
+    root.appendNode('description', POM_DESCRIPTION)
+    root.appendNode('url', POM_SCM_URL)
+    root.children().last() + pomConfig
+}
