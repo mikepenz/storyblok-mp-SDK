@@ -9,5 +9,3 @@ include ':app'
 include ':sample-common'
 
 include ':storyblok-mp-sdk'
-
-enableFeaturePreview("GRADLE_METADATA")
