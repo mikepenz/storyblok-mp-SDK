@@ -49,6 +49,11 @@ class Storyblok constructor(
     var apiProtocol = API_PROTOCOL
 
     /**
+     * The port to use for the requests
+     */
+    var apiPort = API_PROTOCOL.defaultPort
+
+    /**
      * The endpoint to call for the requests
      */
     var apiEndpoint = API_ENDPOINT
@@ -284,6 +289,7 @@ class Storyblok constructor(
         return URLBuilder().apply {
             this.protocol = apiProtocol
             this.host = apiEndpoint
+            this.port = apiPort
             this.path(apiVersion, "cdn", method, *pathSegments)
         }.build()
     }
