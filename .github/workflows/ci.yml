@@ -92,7 +92,7 @@ jobs:
       - name: Release Sonatype
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          ./gradlew build -x test -x lint
+          ./gradlew build -x test -x lint --no-parallel
           ./gradlew storyblok-mp-sdk:publishAllPublicationsToMavenRepository -x test -x lint --no-configure-on-demand --no-parallel
         env:
           ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.NEXUS_USERNAME }}
