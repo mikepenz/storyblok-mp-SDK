@@ -35,7 +35,7 @@
 
 ## About Storyblok
 - **WEBSITE** https://www.storyblok.com/
-- **API DOC** https://www.storyblok.com/docs/api/content-delivery
+- **API DOC** https://www.storyblok.com/docs/api/content-delivery/v2
 
 -------
 
