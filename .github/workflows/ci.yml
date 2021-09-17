@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macOS-latest, windows-latest, ubuntu-18.04]
+        os: [macOS-latest, ubuntu-18.04]
 
     runs-on: ${{matrix.os}}
 
@@ -53,15 +53,15 @@ jobs:
         if: matrix.os != 'windows-latest'
         run: |
           echo "${{ secrets.SONATYPE_GPG_FILE }}" > opensource.gpg.asc
-          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch "opensource.gpg.asc" > "$HOME/.gradle/opensource.gpg"
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch "opensource.gpg.asc" > ~/.gradle/opensource.gpg
           echo "signing.secretKeyRingFile=$HOME/.gradle/opensource.gpg" >> ~/.gradle/gradle.properties
 
       - name: Prepare Sonatype Gradle properties - Secret (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           echo "${{ secrets.SONATYPE_GPG_FILE }}" > opensource.gpg.asc
-          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch "opensource.gpg.asc" > "$HOME\.gradle\opensource.gpg"
-          echo "signing.secretKeyRingFile=$HOME\.gradle\opensource.gpg" >> ~/.gradle/gradle.properties
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch "opensource.gpg.asc" > ~/.gradle/opensource.gpg
+          echo "signing.secretKeyRingFile=$HOME\\.gradle\\opensource.gpg" >> ~/.gradle/gradle.properties
 
       - name: Publish the macOS artifacts
         if: matrix.os == 'macOS-latest'
