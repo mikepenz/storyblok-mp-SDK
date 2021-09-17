@@ -24,15 +24,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-
-    configurations {
-        androidTestApi {}
-        androidTestDebugApi {}
-        androidTestReleaseApi {}
-        testApi {}
-        testDebugApi {}
-        testReleaseApi {}
-    }
 }
 
 kotlin {
@@ -58,9 +49,9 @@ kotlin {
         }
     }
 
-    android {
-        publishLibraryVariants("debug", "release")
-    }
+   android {
+       publishLibraryVariants("release")
+   }
 
     cocoapods {
         summary = "Kotlin multiplatform storyblok SDK"
@@ -120,7 +111,6 @@ dokkaHtml.configure {
     dokkaSourceSets {
         configureEach {
             noAndroidSdkLink.set(false)
-            outputDirectory.set(buildDir.resolve("dokka"))
         }
     }
 }
@@ -129,3 +119,5 @@ task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     classifier = 'javadoc'
     from "$buildDir/javadoc"
 }
+
+apply from: "$rootDir/gradle/gradle-mvn-push.gradle"

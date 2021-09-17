@@ -48,7 +48,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0-alpha12'
+        classpath "com.android.tools.build:gradle:7.1.0-alpha12"
+        classpath "com.vanniktech:gradle-maven-publish-plugin:0.18.0"
         classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${versions.detekt}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${setup.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${setup.kotlin}"
@@ -73,8 +74,4 @@ subprojects {
     dependencies {
         detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"
     }
-}
-
-configure(subprojects.findAll {it.name == "storyblok-mp-sdk" }) {
-    apply from: "$rootDir/gradle/publishing.gradle"
 }
