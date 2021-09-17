@@ -170,10 +170,7 @@ This free, open source software was also made possible by a group of volunteers 
 ## Credits
 
 Some parts of the Kotlin Multiplatform configurations are a result of various great resources on the internet. Including:
-- https://github.com/joreilly/PeopleInSpace
-- https://natanfudge.github.io/fudgedocs/publish-kotlin-mpp-lib.html
-- https://github.com/Kotlin/kotlinx.serialization
-- https://github.com/Kotlin/dokka
+- https://github.com/cashapp/sqldelight
 - and the official Kotlin multiplatform docs
 
 ## License
