@@ -138,16 +138,19 @@ class Storyblok constructor(
      *                          filter_query[ATTRIBUTE][OPERATION]=VALUE,...
      *
      *                          Following filter operations OPERATION are available:
-     *                              in - Exact match of one of the provided values
-     *                              not_in - Does not contain the given value
-     *                              all_in_array - Contains all of the values of an array value
-     *                              in_array - Contains any of the values of an array value
-     *                              gt-date - Greater than date (Format: 2018-03-03 10:00)
-     *                              lt-date - Less than date
-     *                              gt-int - Greater than integer value
-     *                              lt-int - Less than integer value.
-     *                              gt-float - Greater than float value
-     *                              lt-float - Less than float value.
+     *                              is              - Filter your entries by checking if your custom attribute (any field inside the content field) is of a specific type.
+     *                              in              - Filter your entries by checking if your custom attribute (any field inside the content field) has a value that is equal to one of the values provided.
+     *                              not_in          - Filter your entries by checking if your custom attribute (any field inside the content field) does not have a value that is equal to one of the values provided.
+     *                              like            - Filter your entries by checking if your custom attribute (any field inside the content field) has a value that is "like" the value provided.
+     *                              not_like        - Filter your entries by checking if your custom attribute (any field inside the content field) has a value that is "not_like" the value provided.
+     *                              in_array        - Filter your entries by checking if your custom array attribute (any field inside the content field) contains one of the values provided. As soon as one of the provided values separated with , are in the array field, the story object will be in the response.
+     *                              all_in_array    - Filter your entries by checking if your custom array attribute (any field inside the content field) contains all of the values provided. As soon as all of the provided values separated with , are in the array field, the story object will be in the response.
+     *                              gt-date         - Think of it at AFTER a specific date. Allows you to filter fields of type date/datetime (Format: YYYY-mm-dd HH:MM). Returns all entries that are greater (eg. later) than the provided value.
+     *                              lt-date         - Think of it at BEFORE a specific date. Allows you to filter fields of type date/datetime (Format: YYYY-mm-dd HH:MM). Returns all entries that are lower than (eg. before) the provided date.
+     *                              gt-int          - Allows you to filter fields of type number, string (number value), or custom field type with numbers in the schema. Returns all entries that are GREATER than the provided value.
+     *                              lt-int          - Allows you to filter fields of type number, or custom field type with numbers in the schema. Returns all entries that are LOWER than the provided value.
+     *                              gt-float        - Allows you to filter fields of type float, string (float value), or custom field type with numbers in the schema. Returns all entries that are GREATER than the provided value.
+     *                              lt-float        - Allows you to filter fields of type number, or custom field type with numbers in the schema. Returns all entries that are LOWER than the provided value.
      *
      *                          Checkout the filter_query Examples we put together for you with most common use-cases.
      *
