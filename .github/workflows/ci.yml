@@ -8,6 +8,65 @@ on:
   pull_request:
 
 jobs:
+  publish_archives:
+    if: startsWith(github.ref, 'refs/tags/')
+
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-18.04]
+
+    runs-on: ${{matrix.os}}
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '15'
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Checkout Gradle Build Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            !~/.gradle/wrapper/dists/**/gradle*.zip
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Prepare Sonatype Gradle properties
+        run: |
+          echo "${{ secrets.SONATYPE_GPG_FILE }}" > opensource.gpg.asc
+          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch "opensource.gpg.asc" > "$HOME/.gradle/opensource.gpg"
+          echo "signing.keyId=${{ secrets.SONATYPE_GPG_KEY }}" >> ~/.gradle/gradle.properties
+          echo "signing.password=${{ secrets.SONATYPE_GPG_PASS }}" >> ~/.gradle/gradle.properties
+          echo "signing.secretKeyRingFile=$HOME/.gradle/opensource.gpg" >> ~/.gradle/gradle.properties
+
+      - name: Publish the macOS artifacts
+        if: matrix.os == 'macOS-latest'
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.NEXUS_PASSWORD }}
+        run: ./gradlew publishAllPublicationsToMavenRepository --no-daemon
+      - name: Publish the windows artifact
+        if: matrix.os == 'windows-latest'
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.NEXUS_PASSWORD }}
+        run: ./gradlew publishMingwPublicationToMavenRepository
+      - name: Publish the linux artifact
+        if: matrix.os == 'ubuntu-18.04'
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.NEXUS_PASSWORD }}
+        run: ./gradlew publishLinuxX64PublicationToMavenRepository
+
   build:
     name: Build
     runs-on: macos-latest
@@ -79,24 +138,6 @@ jobs:
       - name: Build Release App
         if: startsWith(github.ref, 'refs/tags/')
         run: ./gradlew app:assembleRelease app:bundleRelease
-
-      - name: Prepare Sonatype Gradle properties
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          echo "${{ secrets.SONATYPE_GPG_FILE }}" > opensource.gpg.asc
-          gpg -d --passphrase "${{ secrets.KEYSTORE_PASSPHRASE }}" --batch "opensource.gpg.asc" > "$HOME/.gradle/opensource.gpg"
-          echo "signing.keyId=${{ secrets.SONATYPE_GPG_KEY }}" >> ~/.gradle/gradle.properties
-          echo "signing.password=${{ secrets.SONATYPE_GPG_PASS }}" >> ~/.gradle/gradle.properties
-          echo "signing.secretKeyRingFile=$HOME/.gradle/opensource.gpg" >> ~/.gradle/gradle.properties
-
-      - name: Release Sonatype
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          ./gradlew build -x test -x lint --no-parallel
-          ./gradlew storyblok-mp-sdk:publishAllPublicationsToMavenRepository -x test -x lint --no-configure-on-demand --no-parallel
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.NEXUS_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.NEXUS_PASSWORD }}
 
       - name: Collect artifacts
         run: |

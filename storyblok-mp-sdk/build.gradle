@@ -27,27 +27,36 @@ android {
 }
 
 kotlin {
-    targets {
-        targetFromPreset(presets.linuxX64, 'linuxX64')
-        //targetFromPreset(presets.mingwX64, 'mingwX64')
-        targetFromPreset(presets.macosX64, 'macosX64')
+    jvm()
 
-        targetFromPreset(presets.iosArm64, 'iosArm64')
-        targetFromPreset(presets.iosArm32, 'iosArm32')
-        targetFromPreset(presets.iosX64, 'iosX64')
-        targetFromPreset(presets.tvosArm64, 'tvosArm64')
-        targetFromPreset(presets.tvosX64, 'tvosX64')
-        targetFromPreset(presets.watchosArm32, 'watchosArm32')
-        targetFromPreset(presets.watchosArm64, 'watchosArm64')
-        targetFromPreset(presets.watchosX86, 'watchosX86')
-
-        targetFromPreset(presets.android, "android")
-        targetFromPreset(presets.jvm, "jvm")
-        targetFromPreset(presets.js, "js") {
-            browser {
+    js {
+        nodejs {}
+        browser {}
+        compilations.all {
+            kotlinOptions {
+                moduleKind = "umd"
+                sourceMap = true
+                sourceMapEmbedSources = null
             }
         }
     }
+
+    iosX64()
+    iosArm32()
+    iosArm64()
+    tvosX64()
+    tvosArm64()
+    watchosX86()
+    watchosX64()
+    watchosArm32()
+    watchosArm64()
+    macosX64()
+    //macosArm64()
+    mingwX64()
+    linuxX64()
+    //iosSimulatorArm64()
+    //watchosSimulatorArm64()
+    //tvosSimulatorArm64()
 
    android {
        publishLibraryVariants("release")
@@ -63,8 +72,9 @@ kotlin {
     sourceSets {
         desktopMain { dependsOn(commonMain) }
         linuxX64Main { dependsOn(desktopMain) }
-        //mingwX64Main { dependsOn(desktopMain) }
+        mingwX64Main { dependsOn(desktopMain) }
         macosX64Main { dependsOn(desktopMain) }
+        //macosArm64Main { dependsOn(desktopMain) }
 
         iosMain { dependsOn(commonMain) }
         iosArm64Main { dependsOn(iosMain) }
@@ -72,9 +82,10 @@ kotlin {
         iosX64Main { dependsOn(iosMain) }
         tvosArm64Main { dependsOn(iosMain) }
         tvosX64Main { dependsOn(iosMain) }
-        watchosArm32Main { dependsOn(iosMain) }
-        watchosArm64Main { dependsOn(iosMain) }
-        watchosX86Main { dependsOn(iosMain) }
+        //watchosArm32Main { dependsOn(iosMain) }
+        //watchosArm64Main { dependsOn(iosMain) }
+        //watchosX86Main { dependsOn(iosMain) }
+        //watchosX64Main { dependsOn(iosMain) }
     }
 }
 
