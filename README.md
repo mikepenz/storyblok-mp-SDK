@@ -35,12 +35,26 @@
 
 ## About Storyblok
 - **WEBSITE** https://www.storyblok.com/
-- **API DOC** https://www.storyblok.com/docs/api/content-delivery
+- **API DOC** https://www.storyblok.com/docs/api/content-delivery/v2
 
 -------
 
 ## Setup
 ### Using Gradle
+
+<details open><summary><b>Multiplatform</b></summary>
+<p>
+
+For multiplatform projects specify this single dependency:
+
+```kotlin
+dependencies {
+    implementation("com.mikepenz:storyblok-mp-sdk:${version}")
+}
+```
+
+</p>
+</details>
 
 <details><summary><b>JVM</b></summary>
 <p>
@@ -55,7 +69,7 @@ dependencies {
 </p>
 </details>
 
-<details open><summary><b>Android</b></summary>
+<details><summary><b>Android</b></summary>
 <p>
 
 For Android a special dependency is provided:

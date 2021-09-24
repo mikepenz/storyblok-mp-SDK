@@ -25,6 +25,8 @@ import com.mikepenz.storyblok.app.databinding.ActivityMainBinding
 import com.mikepenz.storyblok.app.items.SimpleItem
 import com.mikepenz.storyblok.app.viewmodel.SampleViewModel
 import com.mikepenz.storyblok.sdk.model.Story
+import com.mikepenz.storyblok.sdk.utils.readableCreatedAt
+import java.text.DateFormat
 
 class SampleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -49,7 +51,13 @@ class SampleActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         supportActionBar?.setHomeButtonEnabled(true)
 
-        actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.root, binding.toolbar, com.mikepenz.materialdrawer.R.string.material_drawer_open, com.mikepenz.materialdrawer.R.string.material_drawer_close)
+        actionBarDrawerToggle = ActionBarDrawerToggle(
+            this,
+            binding.root,
+            binding.toolbar,
+            com.mikepenz.materialdrawer.R.string.material_drawer_open,
+            com.mikepenz.materialdrawer.R.string.material_drawer_close
+        )
         binding.root.addDrawerListener(actionBarDrawerToggle)
 
         headerView = AccountHeaderView(this).apply {
@@ -62,19 +70,19 @@ class SampleActivity : AppCompatActivity() {
         binding.slider.apply {
             setSavedInstance(savedInstanceState)
             addItems(
-                    PrimaryDrawerItem().apply {
-                        nameRes = R.string.storyblok
-                        isSelectable = false
-                        identifier = 10
-                        iconRes = R.drawable.ic_storyblok
-                        isIconTinted = true
-                    },
-                    PrimaryDrawerItem().apply {
-                        nameRes = R.string.open_source
-                        isSelectable = false
-                        identifier = 100
-                        iconicsIcon = MaterialDesignIconic.Icon.gmi_github
-                    }
+                PrimaryDrawerItem().apply {
+                    nameRes = R.string.storyblok
+                    isSelectable = false
+                    identifier = 10
+                    iconRes = R.drawable.ic_storyblok
+                    isIconTinted = true
+                },
+                PrimaryDrawerItem().apply {
+                    nameRes = R.string.open_source
+                    isSelectable = false
+                    identifier = 100
+                    iconicsIcon = MaterialDesignIconic.Icon.gmi_github
+                }
             )
             selectedItemPosition = -1
             onDrawerItemClickListener = { _, drawerItem, _ ->
@@ -82,13 +90,13 @@ class SampleActivity : AppCompatActivity() {
                     startActivity(Intent(Intent.ACTION_VIEW).apply { data = Uri.parse("https://www.storyblok.com/") })
                 } else if (drawerItem.identifier == 100L) {
                     val intent = LibsBuilder()
-                            .withFields(R.string::class.java.fields)
-                            .withActivityTitle(getString(R.string.open_source))
-                            .withAboutIconShown(true)
-                            .withVersionShown(true)
-                            .withLicenseShown(true)
-                            .withAboutVersionShown(true)
-                            .intent(this@SampleActivity)
+                        .withFields(R.string::class.java.fields)
+                        .withActivityTitle(getString(R.string.open_source))
+                        .withAboutIconShown(true)
+                        .withVersionShown(true)
+                        .withLicenseShown(true)
+                        .withAboutVersionShown(true)
+                        .intent(this@SampleActivity)
                     this@SampleActivity.startActivity(intent)
                 }
                 false
@@ -97,7 +105,9 @@ class SampleActivity : AppCompatActivity() {
 
         //create our FastAdapter which will manage everything
         modelAdapter = ModelAdapter {
-            SimpleItem().withName("getStory: " + it.uuid).withDescription(it.name)
+            SimpleItem().withName("getStory: " + it.name).withDescription(
+                it.readableCreatedAt(DateFormat.MEDIUM, DateFormat.SHORT)
+            )
         }
         fastAdapter = FastAdapter.with(modelAdapter)
 

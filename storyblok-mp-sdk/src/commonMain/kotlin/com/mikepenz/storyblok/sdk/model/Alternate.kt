@@ -5,27 +5,16 @@ import kotlinx.serialization.Serializable
 
 /**
  *
+ * @param id Numeric id
+ * @param name The name you give this story
+ * @param slug The slug / path you give this story
+ * @param fullSlug Combined parent folder and current slug
  */
 @Serializable
-open class Alternate {
-    /**
-     * Numeric id
-     */
-    var id: Long = 0
-
-    /**
-     * The name you give this story
-     */
-    var name: String? = null
-
-    /**
-     * The slug / path you give this story
-     */
-    var slug: String? = null
-
-    /**
-     * Combined parent folder and current slug
-     */
+data class Alternate(
+    val id: Long,
+    val name: String,
+    val slug: String,
     @SerialName("full_slug")
-    var fullSlug: String? = null
-}
+    val fullSlug: String? = null
+)
