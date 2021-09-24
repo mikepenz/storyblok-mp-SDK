@@ -5,35 +5,22 @@ import kotlinx.serialization.Serializable
 
 /**
  * In the content delivery API a space object is mostly used to receive the latest version timestamp to invalidate the cache.
+ *
+ * @param id Numeric id
+ * @param name Given name
+ * @param domain Given domain
+ * @param version Cache version
+ * @param languageCodes Array of language codes
  */
 @Serializable
-open class Space {
-    /**
-     * Numeric id
-     */
-    var id: Long = 0
-
-    /**
-     * Given name
-     */
-    var name: String? = null
-
-    /**
-     * Given domain
-     */
-    var domain: String? = null
-
-    /**
-     * Cache version
-     */
-    var version: Long? = null
-
-    /**
-     * Array of language codes
-     */
+data class Space(
+    val id: Long,
+    val name: String,
+    val domain: String,
+    val version: Long = 0,
     @SerialName("language_codes")
-    var languageCodes: List<String>? = null
-}
+    val languageCodes: List<String> = emptyList()
+)
 
 @Serializable
 internal class SpaceWrapper {

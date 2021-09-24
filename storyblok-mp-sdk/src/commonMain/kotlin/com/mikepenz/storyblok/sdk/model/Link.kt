@@ -6,57 +6,34 @@ import kotlinx.serialization.Serializable
 /**
  * A data source is contains the information (slug) to receive a collection of datasource entries. You can use this endpoint to receive all datasources and
  * then call the datasource entries endpoint using the slug of the datasource.
+ *
+ * @param id Numeric id
+ * @param uuid Generated uuid string
+ * @param name Given name of the content entry
+ * @param slug The full_slug of the content entry
+ * @param isFolder Is this content entry a folder (true/false)
+ * @param parentId Parent folder numeric id
+ * @param published Is this story published (true/false)
+ * @param position Numeric position value of the content entry
+ * @param isStartpage Is this story a startpage (true/false)
  */
 @Serializable
-open class Link {
-    /**
-     * Numeric id
-     */
-    var id: Long = 0
-    /**
-     * Generated uuid string
-     */
-    var uuid: String? = null
-    /**
-     * Given name of the content entry
-     */
-    var name: String? = null
-
-    /**
-     * The full_slug of the content entry
-     */
-    var slug: String? = null
-
-    /**
-     * 	Is this content entry a folder (true/false)
-     */
+data class Link(
+    val id: Long,
+    val uuid: String,
+    val name: String,
+    val slug: String,
     @SerialName("is_folder")
-    var isFolder: Boolean? = null
-
-    /**
-     * 	Parent folder numeric id
-     */
+    val isFolder: Boolean = false,
     @SerialName("parent_id")
-    var parentId: Long? = null
-
-    /**
-     * 	Is this story published (true/false)
-     */
-    var published: Boolean? = null
-
-    /**
-     * Numeric position value of the content entry
-     */
-    var position: Long? = null
-
-    /**
-     * Is this story a startpage (true/false)
-     */
+    val parentId: Long? = null,
+    val published: Boolean = false,
+    val position: Long? = null,
     @SerialName("is_startpage")
-    var isStartpage: Boolean? = null
-}
+    val isStartpage: Boolean = false
+)
 
 @Serializable
 internal class LinksWrapper {
-    val links: Map<String, Link>? = null
+    val links: Map<String, Link> = emptyMap()
 }
