@@ -98,6 +98,9 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlinCoroutines}"
 
+    // kotlinx DateTime
+    implementation "org.jetbrains.kotlinx:kotlinx-datetime:${versions.kotlinxDateTime}"
+
     implementation "androidx.activity:activity-ktx:${versions.activityKtx}"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleKtx}"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.viewModelKtx}"

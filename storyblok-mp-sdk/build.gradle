@@ -51,7 +51,7 @@ kotlin {
     watchosArm32()
     watchosArm64()
     macosX64()
-    //macosArm64()
+    // macosArm64()
     mingwX64()
     linuxX64()
     // iosSimulatorArm64()
@@ -108,8 +108,11 @@ dependencies {
     desktopMainImplementation "io.ktor:ktor-client-curl:${versions.ktor}"
     jsMainImplementation "io.ktor:ktor-client-js:${versions.ktor}"
 
-    // Serialize
+    // kotlinx Serialize
     commonMainImplementation "org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.kotlinxSerialization}"
+
+    // kotlinx DateTime
+    commonMainImplementation "org.jetbrains.kotlinx:kotlinx-datetime:${versions.kotlinxDateTime}"
 }
 
 dokkaHtml.configure {
