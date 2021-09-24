@@ -1,6 +1,5 @@
 package com.mikepenz.storyblok.sdk.model
 
-import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
@@ -42,11 +41,11 @@ data class Story(
     @SerialName("default_full_slug")
     val defaultFullSlug: String? = null,
     @SerialName("created_at")
-    val createdAt: Instant,
+    val createdAt: String,
     @SerialName("published_at")
-    val publishedAt: Instant? = null,
+    val publishedAt: String? = null,
     @SerialName("first_published_at")
-    val firstPublishedAt: Instant? = null,
+    val firstPublishedAt: String? = null,
     val content: JsonObject? = null,
     @SerialName("sort_by_date")
     val sortByDate: Boolean? = null,

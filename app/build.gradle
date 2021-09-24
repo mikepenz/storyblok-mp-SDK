@@ -88,7 +88,6 @@ android {
 
 dependencies {
     implementation project(path: ':sample-common')
-    // implementation "com.mikepenz:storyblok-mp-sdk-android:0.0.6"
 
     implementation "androidx.drawerlayout:drawerlayout:${versions.drawerlayout}"
     implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
@@ -97,9 +96,6 @@ dependencies {
     implementation "androidx.cardview:cardview:${versions.cardView}"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.kotlinCoroutines}"
-
-    // kotlinx DateTime
-    implementation "org.jetbrains.kotlinx:kotlinx-datetime:${versions.kotlinxDateTime}"
 
     implementation "androidx.activity:activity-ktx:${versions.activityKtx}"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycleKtx}"

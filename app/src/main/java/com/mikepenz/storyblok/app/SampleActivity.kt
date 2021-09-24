@@ -25,7 +25,7 @@ import com.mikepenz.storyblok.app.databinding.ActivityMainBinding
 import com.mikepenz.storyblok.app.items.SimpleItem
 import com.mikepenz.storyblok.app.viewmodel.SampleViewModel
 import com.mikepenz.storyblok.sdk.model.Story
-import com.mikepenz.storyblok.sdk.utils.toFormattedDateTime
+import com.mikepenz.storyblok.sdk.utils.readableCreatedAt
 import java.text.DateFormat
 
 class SampleActivity : AppCompatActivity() {
@@ -106,7 +106,7 @@ class SampleActivity : AppCompatActivity() {
         //create our FastAdapter which will manage everything
         modelAdapter = ModelAdapter {
             SimpleItem().withName("getStory: " + it.name).withDescription(
-                it.createdAt.toFormattedDateTime(DateFormat.MEDIUM, DateFormat.SHORT)
+                it.readableCreatedAt(DateFormat.MEDIUM, DateFormat.SHORT)
             )
         }
         fastAdapter = FastAdapter.with(modelAdapter)

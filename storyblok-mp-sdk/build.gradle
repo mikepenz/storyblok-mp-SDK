@@ -110,9 +110,6 @@ dependencies {
 
     // kotlinx Serialize
     commonMainImplementation "org.jetbrains.kotlinx:kotlinx-serialization-json:${versions.kotlinxSerialization}"
-
-    // kotlinx DateTime
-    commonMainImplementation "org.jetbrains.kotlinx:kotlinx-datetime:${versions.kotlinxDateTime}"
 }
 
 dokkaHtml.configure {

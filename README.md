@@ -42,6 +42,20 @@
 ## Setup
 ### Using Gradle
 
+<details open><summary><b>Multiplatform</b></summary>
+<p>
+
+For multiplatform projects specify this single dependency:
+
+```kotlin
+dependencies {
+    implementation("com.mikepenz:storyblok-mp-sdk:${version}")
+}
+```
+
+</p>
+</details>
+
 <details><summary><b>JVM</b></summary>
 <p>
 
@@ -55,7 +69,7 @@ dependencies {
 </p>
 </details>
 
-<details open><summary><b>Android</b></summary>
+<details><summary><b>Android</b></summary>
 <p>
 
 For Android a special dependency is provided:
