@@ -1,5 +1,6 @@
 package com.mikepenz.storyblok.sdk.model
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
@@ -8,119 +9,64 @@ import kotlinx.serialization.json.JsonObject
  * This is an object representing your content entry. One Story object can be of a specific type, so called content types and is able to contain components.
  * You define the fields and nestability of your content types to achieve your content structure. To learn how to build a basic blog you can checkout our
  * content building tutorial.
+ *
+ * @param id Numeric id
+ * @param uuid Generated uuid string
+ * @param name The name you give this story
+ * @param slug The slug / path you give this story
+ * @param fullSlug Combined parent folder and current slug
+ * @param defaultFullSlug Contains the full slug of the default language if the app Translatable Slugs is installed
+ * @param createdAt Creation date
+ * @param publishedAt Latest publishing date
+ * @param firstPublishedAt First publishing date
+ * @param content Your defined custom content body object
+ * @param sortByDate
+ * @param position Position in folder
+ * @param tagList
+ * @param isStartPage Is startpage of current folder (true/false)
+ * @param parentId Parent folder id
+ * @param groupId Alternates group id (uuid string)
+ * @param alternates Array of alternate objects
+ * @param translatedSlugs Array of alternate objects
+ * @param releaseId Id of your content stage (default: null)
+ * @param lang Defined language (default: "default")
  */
 @Serializable
-open class Story {
-    /**
-     * Numeric id
-     */
-    var id: Long = 0
-
-    /**
-     * Generated uuid string
-     */
-    var uuid: String? = null
-
-    /**
-     * The name you give this story
-     */
-    var name: String? = null
-
-    /**
-     * The slug / path you give this story
-     */
-    var slug: String? = null
-
-    /**
-     * Combined parent folder and current slug
-     */
+data class Story(
+    val id: Long,
+    val uuid: String,
+    val name: String,
+    val slug: String,
     @SerialName("full_slug")
-    var fullSlug: String? = null
-
-    /**
-     * Contains the full slug of the default language if the app Translatable Slugs is installed
-     */
+    val fullSlug: String,
     @SerialName("default_full_slug")
-    var defaultFullSlug: String? = null
-
-    /**
-     * Creation date (Format: YYYY-mm-dd HH:MM)
-     */
+    val defaultFullSlug: String? = null,
     @SerialName("created_at")
-    var createdAt: String? = null
-
-    /**
-     * Latest publishing date (Format: YYYY-mm-dd HH:MM)
-     */
+    val createdAt: Instant,
     @SerialName("published_at")
-    var publishedAt: String? = null
-
-    /**
-     * First publishing date (Format: YYYY-mm-dd HH:MM)
-     */
+    val publishedAt: Instant? = null,
     @SerialName("first_published_at")
-    var firstPublishedAt: String? = null
-
-    /**
-     * Your defined custom content body object
-     */
-    var content: JsonObject? = null
-
-    /**
-     *
-     */
+    val firstPublishedAt: Instant? = null,
+    val content: JsonObject? = null,
     @SerialName("sort_by_date")
-    var sortByDate: Boolean? = null
-
-    /**
-     * Position in folder
-     */
-    var position: Int? = null
-
+    val sortByDate: Boolean? = null,
+    val position: Int? = null,
     @SerialName("tag_list")
-    var tagList: List<String>? = null
-
-    /**
-     * Is startpage of current folder (true/false)
-     */
+    val tagList: List<String>? = null,
     @SerialName("is_startpage")
-    var isStartPage: Boolean? = null
-
-    /**
-     * Parent folder id
-     */
+    val isStartPage: Boolean = false,
     @SerialName("parent_id")
-    var parentId: Int? = null
-
-    /**
-     * Alternates group id (uuid string)
-     */
+    val parentId: Int? = null,
     @SerialName("group_id")
-    var groupId: String? = null
-
-    /**
-     * Array of alternate objects
-     */
+    val groupId: String? = null,
     @SerialName("alternates")
-    var alternates: List<JsonObject>? = null
-
-    /**
-     * Array of alternate objects
-     */
+    val alternates: List<Alternate>? = null,
     @SerialName("translated_slugs")
-    var translatedSlugs: List<JsonObject>? = null
-
-    /**
-     * Id of your content stage (default: null)
-     */
+    val translatedSlugs: List<JsonObject>? = null,
     @SerialName("release_id")
-    var releaseId: String? = null
-
-    /**
-     * Defined language (default: "default")
-     */
-    var lang: String? = null
-}
+    val releaseId: String? = null,
+    val lang: String = "default"
+)
 
 @Serializable
 internal class StoryWrapper {
@@ -129,5 +75,5 @@ internal class StoryWrapper {
 
 @Serializable
 internal class StoriesWrapper {
-    val stories: List<Story>? = null
+    val stories: List<Story> = emptyList()
 }
