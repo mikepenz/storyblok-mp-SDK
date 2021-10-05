@@ -299,7 +299,7 @@ class Storyblok constructor(
         private const val API_ENDPOINT = "api.storyblok.com"
         private const val API_VERSION = "v2"
 
-        private const val SDK_VERSION = "1.1.0"
+        private const val SDK_VERSION = "1.1.1"
         private const val SDK_USER_AGENT = "storyblok-sdk-android/$SDK_VERSION"
 
         private const val VERSION_PUBLISHED = "published"
