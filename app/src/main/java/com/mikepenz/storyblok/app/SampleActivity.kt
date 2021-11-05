@@ -90,7 +90,6 @@ class SampleActivity : AppCompatActivity() {
                     startActivity(Intent(Intent.ACTION_VIEW).apply { data = Uri.parse("https://www.storyblok.com/") })
                 } else if (drawerItem.identifier == 100L) {
                     val intent = LibsBuilder()
-                        .withFields(R.string::class.java.fields)
                         .withActivityTitle(getString(R.string.open_source))
                         .withAboutIconShown(true)
                         .withVersionShown(true)
