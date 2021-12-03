@@ -11,7 +11,7 @@ class StoryblokRepository(token: String) {
     private val storyblok = Storyblok(token)
 
     suspend fun fetchStories(): List<Story> {
-        logger.d("fetchStories", "Repo")
+        logger.d("Repo")
         return storyblok.fetchStories()
     }
 }
