@@ -51,7 +51,7 @@ kotlin {
     watchosArm32()
     watchosArm64()
     macosX64()
-    // macosArm64()
+    macosArm64()
     mingwX64()
     linuxX64()
 
@@ -71,7 +71,7 @@ kotlin {
         linuxX64Main { dependsOn(desktopMain) }
         mingwX64Main { dependsOn(desktopMain) }
         macosX64Main { dependsOn(desktopMain) }
-        // macosArm64Main { dependsOn(desktopMain) }
+        macosArm64Main { dependsOn(desktopMain) }
 
         iosMain { dependsOn(commonMain) }
         iosArm64Main { dependsOn(iosMain) }
