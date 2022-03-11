@@ -2,6 +2,7 @@ package com.mikepenz.storyblok.sdk
 
 import com.mikepenz.storyblok.sdk.http.provideClient
 import com.mikepenz.storyblok.sdk.model.*
+import com.mikepenz.storyblok.sdk.util.parameter
 import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
@@ -299,7 +300,7 @@ class Storyblok constructor(
         private const val API_ENDPOINT = "api.storyblok.com"
         private const val API_VERSION = "v2"
 
-        private const val SDK_VERSION = "1.2.0"
+        private const val SDK_VERSION = "1.2.1"
         private const val SDK_USER_AGENT = "storyblok-sdk-android/$SDK_VERSION"
 
         private const val VERSION_PUBLISHED = "published"
