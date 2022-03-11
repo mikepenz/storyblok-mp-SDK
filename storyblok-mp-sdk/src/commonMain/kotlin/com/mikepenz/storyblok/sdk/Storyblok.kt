@@ -2,6 +2,7 @@ package com.mikepenz.storyblok.sdk
 
 import com.mikepenz.storyblok.sdk.http.provideClient
 import com.mikepenz.storyblok.sdk.model.*
+import com.mikepenz.storyblok.sdk.util.parameter
 import io.ktor.client.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
