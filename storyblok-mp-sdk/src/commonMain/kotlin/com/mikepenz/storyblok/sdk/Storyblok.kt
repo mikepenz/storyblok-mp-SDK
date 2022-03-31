@@ -178,7 +178,7 @@ class Storyblok constructor(
         fromRelease: Long? = null,
         sortBy: Array<String>? = null,
         searchTerm: String? = null,
-        filterQuery: String? = null,
+        filterQuery: Map<String, String>? = null,
         isStartpage: Boolean? = null,
         withTag: Array<String>? = null,
         page: Int = 1,
@@ -197,7 +197,9 @@ class Storyblok constructor(
             parameter("from_release", fromRelease)
             parameter("sort_by", sortBy)
             parameter("search_term", searchTerm)
-            parameter("filter_query", filterQuery)
+            filterQuery?.forEach { (key, value) ->
+                parameter("filter_query$key", value)
+            }
             parameter("is_startpage", isStartpage)
             parameter("with_tag", withTag)
             parameter("page", page)
