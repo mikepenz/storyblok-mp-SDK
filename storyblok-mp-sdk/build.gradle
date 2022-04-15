@@ -67,11 +67,34 @@ kotlin {
     }
 
     sourceSets {
-        desktopMain { dependsOn(commonMain) }
-        linuxX64Main { dependsOn(desktopMain) }
-        mingwX64Main { dependsOn(desktopMain) }
-        macosX64Main { dependsOn(desktopMain) }
-        macosArm64Main { dependsOn(desktopMain) }
+
+        /* ==========================================================================
+          TARGETS                            SOURCE SETS
+          -------         ----------------------------------------------
+         js -----------------------------------------------------+
+                                                                 |
+                                                                 V
+         jvm -----------------------------------------------> common
+                                                                ^
+         ios     \                                              |
+         macos   | ---> nativeDarwin ---> native------------- --+
+         tvos    |                         ^
+         watchos /                         |
+                                           |
+         linux  \  ---> nativeOther -------+
+         mingw  /
+       ========================================================================== */
+
+
+        nativeMain { dependsOn(commonMain) }
+
+        nativeOther { dependsOn(nativeMain) }
+        linuxX64Main { dependsOn(nativeOther) }
+        mingwX64Main { dependsOn(nativeOther) }
+
+        nativeDarwin { dependsOn(nativeMain) }
+        macosX64Main { dependsOn(nativeDarwin) }
+        macosArm64Main { dependsOn(nativeDarwin) }
 
         iosMain { dependsOn(commonMain) }
         iosArm64Main { dependsOn(iosMain) }
@@ -102,7 +125,8 @@ dependencies {
     androidMainImplementation "io.ktor:ktor-client-android:${versions.ktor}"
     jvmMainImplementation "io.ktor:ktor-client-apache:${versions.ktor}"
     iosMainImplementation "io.ktor:ktor-client-ios:${versions.ktor}"
-    desktopMainImplementation "io.ktor:ktor-client-curl:${versions.ktor}"
+    nativeDarwinImplementation "io.ktor:ktor-client-darwin:${versions.ktor}"
+    nativeOtherImplementation "io.ktor:ktor-client-curl:${versions.ktor}"
     jsMainImplementation "io.ktor:ktor-client-js:${versions.ktor}"
 
     // kotlinx Serialize
