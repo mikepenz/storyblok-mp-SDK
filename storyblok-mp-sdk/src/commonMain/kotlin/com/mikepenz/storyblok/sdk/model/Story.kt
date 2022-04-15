@@ -67,12 +67,86 @@ data class Story(
     val lang: String = "default"
 )
 
+/**
+ * Represents the returned story and respective additional attributes if configured.
+ * See [cv], [relations], [links], [relationUuids], [linkUuids]
+ *
+ * Please see the documentation of [com.mikepenz.storyblok.sdk.Storyblok.fetchStory].
+ */
 @Serializable
-internal class StoryWrapper {
+class StoryWrapper {
+    /**
+     * The cache version
+     */
+    val cv: Long? = null
+
+    /**
+     * 	A single [Story] object
+     */
     val story: Story? = null
+
+    /**
+     * Array of related [Story] objects when using the resolve_relations parameter
+     */
+    @SerialName("rels")
+    val relations: List<Story> = emptyList()
+
+    /**
+     * Array of the uuids of all the related story objects if the resolve_relations parameter is in use and if the limit of resolvable relations is hit
+     */
+    @SerialName("rel_uuids")
+    val relationUuids: List<String> = emptyList()
+
+    /**
+     * Array of [Link] or story objects when using the resolve_links parameter
+     */
+    val links: List<Link> = emptyList()
+
+    /**
+     * Array of the uuids of all the links if the resolve_links parameter is in use and if the limit of resolvable links is hit
+     */
+    @SerialName("link_uuids")
+    val linkUuids: List<String> = emptyList()
 }
 
+/**
+ * Represents the returned list of stories and respective additional attributes if configured.
+ * See [cv], [relations], [links], [relationUuids], [linkUuids]
+ *
+ * Please see the documentation of [com.mikepenz.storyblok.sdk.Storyblok.fetchStories].
+ */
 @Serializable
-internal class StoriesWrapper {
+class StoriesWrapper {
+    /**
+     * The cache version
+     */
+    val cv: Long? = null
+
+    /**
+     * An array of [Story] objects
+     */
     val stories: List<Story> = emptyList()
+
+    /**
+     * Array of related [Story] objects when using the resolve_relations parameter
+     */
+    @SerialName("rels")
+    val relations: List<Story> = emptyList()
+
+    /**
+     * Array of the uuids of all the related story objects if the resolve_relations parameter is in use and if the limit of resolvable relations is hit
+     */
+    @SerialName("rel_uuids")
+    val relationUuids: List<String> = emptyList()
+
+    /**
+     * Array of [Link] or [Story] objects when using the resolve_links parameter
+     */
+    val links: List<Story> = emptyList()
+
+    /**
+     * Array of the uuids of all the links if the resolve_links parameter is in use and if the limit of resolvable links is hit
+     */
+    @SerialName("link_uuids")
+    val linkUuids: List<String> = emptyList()
 }
