@@ -4,10 +4,11 @@ import com.mikepenz.storyblok.sdk.http.provideClient
 import com.mikepenz.storyblok.sdk.model.*
 import com.mikepenz.storyblok.sdk.util.parameter
 import io.ktor.client.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
+import io.ktor.client.call.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 /**
@@ -30,8 +31,8 @@ class Storyblok constructor(
 
     private val client by lazy {
         (providedClient ?: provideClient()).config {
-            (configureClient?.invoke(this) ?: install(JsonFeature) {
-                serializer = KotlinxSerializer(Json(builderAction = {
+            (configureClient?.invoke(this) ?: install(ContentNegotiation) {
+                json(json = Json(builderAction = {
                     ignoreUnknownKeys = true
                     prettyPrint = true
                 }))
@@ -118,7 +119,7 @@ class Storyblok constructor(
             parameter("language", language)
             parameter("fallback_lang", fallbackLang)
             parameter("cv", cv)
-        })
+        }).body()
         return story
     }
 
@@ -205,7 +206,7 @@ class Storyblok constructor(
             parameter("page", page)
             parameter("per_page", perPage)
             parameter("cv", cv)
-        })
+        }).body()
         return storyList
     }
 
@@ -213,7 +214,7 @@ class Storyblok constructor(
      * Returns the current space object, if you're authenticated with a token.
      */
     suspend fun fetchCurrentSpace(): Space? {
-        val space: SpaceWrapper = client.get(buildUrl(ENDPOINT_SPACE), requestBuilder {})
+        val space: SpaceWrapper = client.get(buildUrl(ENDPOINT_SPACE), requestBuilder {}).body()
         return space.space
     }
 
@@ -227,8 +228,8 @@ class Storyblok constructor(
         val datasourceList: DatasourceWrapper = client.get(buildUrl(ENDPOINT_DATASOURCE), requestBuilder {
             parameter("page", page)
             parameter("per_page", perPage)
-        })
-        return datasourceList.datasources ?: emptyList()
+        }).body()
+        return datasourceList.datasources
     }
 
     /**
@@ -253,8 +254,8 @@ class Storyblok constructor(
             parameter("page", page)
             parameter("per_page", perPage)
             parameter("cv", cv)
-        })
-        return datasourceList.datasources ?: emptyList()
+        }).body()
+        return datasourceList.datasources
     }
 
     /**
@@ -272,8 +273,8 @@ class Storyblok constructor(
             parameter("paginated", paginated)
             parameter("page", page)
             parameter("per_page", perPage)
-        })
-        return linksList.links ?: emptyMap()
+        }).body()
+        return linksList.links
     }
 
     /**
@@ -284,8 +285,8 @@ class Storyblok constructor(
     suspend fun fetchTags(startsWith: String? = null): List<Tag> {
         val tagsList: TagsWrapper = client.get(buildUrl(ENDPOINT_TAGS), requestBuilder {
             parameter("starts_with", startsWith)
-        })
-        return tagsList.tags ?: emptyList()
+        }).body()
+        return tagsList.tags
     }
 
     private fun buildUrl(method: String, vararg pathSegments: String): Url {
