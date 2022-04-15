@@ -1,6 +1,6 @@
 package com.mikepenz.storyblok.sdk.http
 
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 
 internal expect val httpClient: HttpClient
 
