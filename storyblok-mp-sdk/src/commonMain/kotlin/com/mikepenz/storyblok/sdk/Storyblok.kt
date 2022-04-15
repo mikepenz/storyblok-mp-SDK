@@ -109,7 +109,7 @@ class Storyblok constructor(
         language: String? = null,
         fallbackLang: String? = null,
         cv: Long? = null
-    ): Story? {
+    ): StoryWrapper {
         val story: StoryWrapper = client.get(buildUrl(ENDPOINT_STORIES, key), requestBuilder {
             parameter("find_by", findBy)
             parameter("resolve_links", resolveLinks)
@@ -119,7 +119,7 @@ class Storyblok constructor(
             parameter("fallback_lang", fallbackLang)
             parameter("cv", cv)
         })
-        return story.story
+        return story
     }
 
     /**
@@ -184,7 +184,7 @@ class Storyblok constructor(
         page: Int = 1,
         perPage: Int = 25,
         cv: Long? = null
-    ): List<Story> {
+    ): StoriesWrapper {
         val storyList: StoriesWrapper = client.get(buildUrl(ENDPOINT_STORIES), requestBuilder {
             parameter("starts_with", startsWith)
             parameter("by_uuids", byUuids)
@@ -206,7 +206,7 @@ class Storyblok constructor(
             parameter("per_page", perPage)
             parameter("cv", cv)
         })
-        return storyList.stories ?: emptyList()
+        return storyList
     }
 
     /**

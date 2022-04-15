@@ -12,7 +12,7 @@ class StoryblokRepository(token: String) {
 
     suspend fun fetchStories(): List<Story> {
         logger.d("Repo")
-        return storyblok.fetchStories()
+        return storyblok.fetchStories().stories
     }
 }
 
