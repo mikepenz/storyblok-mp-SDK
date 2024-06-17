@@ -215,7 +215,9 @@ fun Project.getLocalProperty(key: String, file: String = "local.properties"): An
         InputStreamReader(FileInputStream(localProperties), Charsets.UTF_8).use { reader ->
             properties.load(reader)
         }
-    } else error("File from not found")
+    } else {
+        return "" // don't include key in public builds
+    }
 
     return properties.getProperty(key) ?: ""
 }
