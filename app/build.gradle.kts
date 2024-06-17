@@ -114,8 +114,8 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        versionCode = 100
-        versionName = "1.0.0"
+        versionCode = 2000
+        versionName = "2.0.0"
         setProperty("archivesBaseName", "Storyblok-v$versionName")
         buildConfigField(
             "String",
@@ -162,8 +162,8 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "StoryBlok Compose Desktop"
-            packageVersion = "1.0.0"
+            packageName = "Storyblok Compose Desktop"
+            packageVersion = "2.0.0"
             description = "A small sample app to showcase the power of Storyblok's API"
             copyright = "© 2024 Mike Penz. All rights reserved."
         }
