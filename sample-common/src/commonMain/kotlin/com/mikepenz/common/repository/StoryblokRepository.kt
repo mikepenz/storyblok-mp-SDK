@@ -6,12 +6,10 @@ import com.mikepenz.storyblok.sdk.model.Story
 
 
 class StoryblokRepository(token: String) {
-    private val logger: Logger = getLogger()
-
     private val storyblok = Storyblok(token)
 
     suspend fun fetchStories(): List<Story> {
-        logger.d("Repo")
+        Logger.d("Repo")
         return storyblok.fetchStories().stories
     }
 }

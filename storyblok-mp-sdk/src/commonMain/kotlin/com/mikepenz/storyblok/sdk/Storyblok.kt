@@ -1,14 +1,30 @@
 package com.mikepenz.storyblok.sdk
 
 import com.mikepenz.storyblok.sdk.http.provideClient
-import com.mikepenz.storyblok.sdk.model.*
+import com.mikepenz.storyblok.sdk.model.Datasource
+import com.mikepenz.storyblok.sdk.model.DatasourceWrapper
+import com.mikepenz.storyblok.sdk.model.Link
+import com.mikepenz.storyblok.sdk.model.LinksWrapper
+import com.mikepenz.storyblok.sdk.model.Space
+import com.mikepenz.storyblok.sdk.model.SpaceWrapper
+import com.mikepenz.storyblok.sdk.model.StoriesWrapper
+import com.mikepenz.storyblok.sdk.model.StoryWrapper
+import com.mikepenz.storyblok.sdk.model.Tag
+import com.mikepenz.storyblok.sdk.model.TagsWrapper
 import com.mikepenz.storyblok.sdk.util.parameter
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
+import io.ktor.client.call.body
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.request.parameter
+import io.ktor.http.URLBuilder
+import io.ktor.http.URLProtocol
+import io.ktor.http.Url
+import io.ktor.http.path
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 /**
@@ -225,10 +241,11 @@ class Storyblok constructor(
      * [perPage]    Numeric. default: 25, max: 1000. Read more at Pagination
      */
     suspend fun fetchDatasources(page: Int = 1, perPage: Int = 25): List<Datasource> {
-        val datasourceList: DatasourceWrapper = client.get(buildUrl(ENDPOINT_DATASOURCE), requestBuilder {
-            parameter("page", page)
-            parameter("per_page", perPage)
-        }).body()
+        val datasourceList: DatasourceWrapper =
+            client.get(buildUrl(ENDPOINT_DATASOURCE), requestBuilder {
+                parameter("page", page)
+                parameter("per_page", perPage)
+            }).body()
         return datasourceList.datasources
     }
 
@@ -248,13 +265,14 @@ class Storyblok constructor(
         perPage: Int = 25,
         cv: Long? = null
     ): List<Datasource> {
-        val datasourceList: DatasourceWrapper = client.get(buildUrl(ENDPOINT_DATASOURCE_ENTRIES), requestBuilder {
-            parameter("datasource", datasource)
-            parameter("dimension", dimension)
-            parameter("page", page)
-            parameter("per_page", perPage)
-            parameter("cv", cv)
-        }).body()
+        val datasourceList: DatasourceWrapper =
+            client.get(buildUrl(ENDPOINT_DATASOURCE_ENTRIES), requestBuilder {
+                parameter("datasource", datasource)
+                parameter("dimension", dimension)
+                parameter("page", page)
+                parameter("per_page", perPage)
+                parameter("cv", cv)
+            }).body()
         return datasourceList.datasources
     }
 
@@ -267,7 +285,12 @@ class Storyblok constructor(
      * [page]           Numeric. default: 1. Read more at Pagination
      * [perPage]        Numeric. default: 25, max: 1000. Read more at Pagination
      */
-    suspend fun fetchLinks(startsWith: String? = null, paginated: Int? = null, page: Int = 1, perPage: Int = 25): Map<String, Link> {
+    suspend fun fetchLinks(
+        startsWith: String? = null,
+        paginated: Int? = null,
+        page: Int = 1,
+        perPage: Int = 25
+    ): Map<String, Link> {
         val linksList: LinksWrapper = client.get(buildUrl(ENDPOINT_LINKS), requestBuilder {
             parameter("starts_with", startsWith)
             parameter("paginated", paginated)
@@ -303,7 +326,7 @@ class Storyblok constructor(
         private const val API_ENDPOINT = "api.storyblok.com"
         private const val API_VERSION = "v2"
 
-        private const val SDK_VERSION = "2.0.0-rc02"
+        private const val SDK_VERSION = "2.0.0"
         private const val SDK_USER_AGENT = "storyblok-sdk-android/$SDK_VERSION"
 
         private const val VERSION_PUBLISHED = "published"
@@ -314,6 +337,7 @@ class Storyblok constructor(
         private const val ENDPOINT_LINKS = "links" // the endpoint for links
         private const val ENDPOINT_TAGS = "tags" // the endpoint for tags
         private const val ENDPOINT_DATASOURCE = "datasources" // the endpoint for datasources
-        private const val ENDPOINT_DATASOURCE_ENTRIES = "datasource_entries" // the endpoint for datasource entries
+        private const val ENDPOINT_DATASOURCE_ENTRIES =
+            "datasource_entries" // the endpoint for datasource entries
     }
 }
