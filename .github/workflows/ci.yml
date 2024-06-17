@@ -14,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macOS-latest, ubuntu-latest, windows-latest]
+        os: [macOS-latest]
 
     runs-on: ${{matrix.os}}
 
@@ -55,7 +55,7 @@ jobs:
         run: ./gradlew publishAllPublicationsToMavenRepository --no-daemon
 
       - name: Publish the windows artifact
-        if: matrix.os == 'windows-latest'
+        if: false && matrix.os == 'windows-latest'
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.NEXUS_PASSWORD }}
@@ -65,7 +65,7 @@ jobs:
         run: ./gradlew publishMingwPublicationToMavenRepository
 
       - name: Publish the linux artifact
-        if: matrix.os == 'ubuntu-latest'
+        if: false && matrix.os == 'ubuntu-latest'
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.NEXUS_PASSWORD }}
