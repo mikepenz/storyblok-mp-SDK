@@ -45,7 +45,7 @@
 <details open><summary><b>Multiplatform</b></summary>
 <p>
 
-For multiplatform projects specify this single dependency:
+For multiplatform projects specify this single dependency via [Maven Central](https://search.maven.org/artifact/com.mikepenz/storyblok-mp-sdk):
 
 ```kotlin
 dependencies {
