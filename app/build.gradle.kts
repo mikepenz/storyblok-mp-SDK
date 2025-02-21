@@ -26,11 +26,6 @@ kotlin {
         binaries.executable()
     }
 
-    jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-        vendor = JvmVendorSpec.JETBRAINS
-    }
-
     androidTarget()
 
     jvm("desktop")
