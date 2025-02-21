@@ -1,15 +1,13 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.util.Properties
 
 plugins {
-    id("com.mikepenz.android.application")
-    id("org.jetbrains.kotlin.multiplatform")
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.aboutlibraries)
+    id("com.mikepenz.convention.kotlin-multiplatform")
+    id("com.mikepenz.convention.android-application")
+    id("com.mikepenz.convention.compose")
+    id("com.mikepenz.aboutlibraries.plugin")
 }
 
 if (appSigningFile != null) {
@@ -17,7 +15,7 @@ if (appSigningFile != null) {
 }
 
 kotlin {
-    @OptIn(ExperimentalWasmDsl::class)
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
         browser {
@@ -28,8 +26,7 @@ kotlin {
         binaries.executable()
     }
 
-    androidTarget {
-    }
+    androidTarget()
 
     jvm("desktop")
 
@@ -44,13 +41,10 @@ kotlin {
         }
     }
 
+
     applyDefaultHierarchyTemplate()
 
     sourceSets {
-        all {
-            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
-        }
-
         commonMain.dependencies {
             implementation(projects.storyblokMpSdk)
             implementation(projects.sampleCommon)
@@ -170,10 +164,6 @@ compose.desktop {
     }
 }
 
-compose.experimental {
-    web.application {}
-}
-
 aboutLibraries {
     registerAndroidTasks = true
     duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
@@ -190,23 +180,6 @@ private val appSigningFile: String?
             ?.toString() else null
     }
 
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        if (project.findProperty("composeCompilerReports") == "true") {
-            freeCompilerArgs += listOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.layout.buildDirectory.asFile.get().absolutePath}/compose_compiler"
-            )
-        }
-        if (project.findProperty("composeCompilerMetrics") == "true") {
-            freeCompilerArgs += listOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.layout.buildDirectory.asFile.get().absolutePath}/compose_compiler"
-            )
-        }
-    }
-}
 
 fun Project.getLocalProperty(key: String, file: String = "local.properties"): Any {
     val properties = Properties()
