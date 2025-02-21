@@ -4,9 +4,13 @@ datetime = "0.6.1"
 serialization = "1.8.0"
 ktor = "3.1.0"
 kermit = "2.0.5"
+koin = "4.0.2"
+kmp-nativecoroutines = "1.0.0-ALPHA-39"
+kmp-observeablevm = "1.0.0-BETA-9"
 
 [plugins]
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidx-benchmark" }
+kmp-nativecoroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "kmp-nativecoroutines" }
 
 [libraries]
 androidx-activity-compose = "androidx.activity:activity-compose:1.10.0"
@@ -22,23 +26,18 @@ ktor-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-compose-multiplatform = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+
+kmp-viewmodel = { module = "com.rickclephas.kmp:kmp-observableviewmodel-core", version.ref = "kmp-observeablevm" }
+
 # sample app
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 # legacy sample app
-androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
-androidx-drawerlayout = "androidx.drawerlayout:drawerlayout:1.2.0"
-androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.2.0"
-androidx-recyclerview = "androidx.recyclerview:recyclerview:1.4.0"
-androidx-cardview = "androidx.cardview:cardview:1.0.0"
-androidx-activity = "androidx.activity:activity-ktx:1.10.0"
 androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
 androidx-lifecycle-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7"
-fastadapter = "com.mikepenz:fastadapter:5.7.0"
-materialdrawer-core = "com.mikepenz:materialdrawer:9.0.2"
-materialdrawer-iconics = "com.mikepenz:materialdrawer-iconics:9.0.1"
-iconics-core = "com.mikepenz:iconics-core:5.4.0"
-iconics-mdit = "com.mikepenz:material-design-iconic-typeface:2.2.0.8-kotlin"
 
 [bundles]
 ktor = ["ktor-core", "ktor-content-negotiation", "ktor-json"]

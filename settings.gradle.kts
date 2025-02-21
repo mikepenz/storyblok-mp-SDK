@@ -16,6 +16,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://packages.jetbrains.team/maven/p/kpm/public/")
         mavenLocal()
     }
 
@@ -27,5 +28,4 @@ dependencyResolutionManagement {
 }
 
 include(":storyblok-mp-sdk")
-include(":sample-common")
 include(":app")
