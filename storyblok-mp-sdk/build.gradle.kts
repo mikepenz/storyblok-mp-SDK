@@ -1,11 +1,9 @@
 plugins {
     id("com.mikepenz.convention.android-library")
     id("com.mikepenz.convention.kotlin-multiplatform")
-    alias(libs.plugins.baselineprofile)
-    alias(libs.plugins.dokka)
-    alias(libs.plugins.mavenpublish)
-    alias(libs.plugins.kotlinSerialization)
     id("org.jetbrains.kotlin.native.cocoapods")
+    kotlin("plugin.serialization") version baseLibs.versions.kotlin.get()
+    alias(libs.plugins.baselineprofile)
 }
 
 android {

@@ -1,17 +1,11 @@
+import com.mikepenz.gradle.utils.readPropertyOrElse
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import java.io.FileInputStream
-import java.io.InputStreamReader
-import java.util.Properties
 
 plugins {
     id("com.mikepenz.convention.kotlin-multiplatform")
     id("com.mikepenz.convention.android-application")
     id("com.mikepenz.convention.compose")
     id("com.mikepenz.aboutlibraries.plugin")
-}
-
-if (appSigningFile != null) {
-    apply(from = appSigningFile)
 }
 
 kotlin {
@@ -114,7 +108,7 @@ android {
         buildConfigField(
             "String",
             "STORYBLOK_TOKEN",
-            "\"" + getLocalProperty("storyblok.token") + "\""
+            "\"" + readPropertyOrElse("storyblok.token") + "\""
         )
     }
 
@@ -167,30 +161,4 @@ compose.desktop {
 aboutLibraries {
     registerAndroidTasks = true
     duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
-}
-
-private val appSigningFile: String?
-    get() {
-        val k = "signing.file"
-        return Properties().also { prop ->
-            rootProject.file("local.properties").takeIf { it.exists() }?.let {
-                prop.load(it.inputStream())
-            }
-        }.getProperty(k, null) ?: if (project.hasProperty(k)) project.property(k)
-            ?.toString() else null
-    }
-
-
-fun Project.getLocalProperty(key: String, file: String = "local.properties"): Any {
-    val properties = Properties()
-    val localProperties = File(file)
-    if (localProperties.isFile) {
-        InputStreamReader(FileInputStream(localProperties), Charsets.UTF_8).use { reader ->
-            properties.load(reader)
-        }
-    } else {
-        return "" // don't include key in public builds
-    }
-
-    return properties.getProperty(key) ?: ""
 }
