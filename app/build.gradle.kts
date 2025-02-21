@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.mikepenz.gradle.utils.readPropertyOrElse
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
@@ -6,6 +7,7 @@ plugins {
     id("com.mikepenz.convention.android-application")
     id("com.mikepenz.convention.compose")
     id("com.mikepenz.aboutlibraries.plugin")
+    id("com.codingfeline.buildkonfig") version "0.16.0"
 }
 
 kotlin {
@@ -41,7 +43,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.storyblokMpSdk)
-            implementation(projects.sampleCommon)
 
             implementation(compose.runtime) { require(true) }
             implementation(compose.foundation) { require(true) }
@@ -49,27 +50,28 @@ kotlin {
             implementation(compose.ui) { require(true) }
             implementation(compose.components.resources) { require(true) }
 
-            implementation(baseLibs.bundles.aboutlibs) // aboutlibraries
+            api(libs.kmp.viewmodel)
+
+            // dependency injection
+            api(libs.koin.core)
+            implementation(libs.koin.compose.multiplatform)
+
+            // time
+            implementation(libs.kotlinx.datetime)
+            // logging
+            implementation(libs.kermit)
+            // aboutlibraries
+            implementation(baseLibs.bundles.aboutlibs)
         }
 
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.lifecycle.runtime)
+            implementation(libs.androidx.lifecycle.viewmodel)
 
             implementation(baseLibs.aboutlibraries.compose.m3)
 
-            implementation(libs.androidx.appcompat)
-            implementation(libs.androidx.drawerlayout)
-            implementation(libs.androidx.constraintlayout)
-            implementation(libs.androidx.recyclerview)
-            implementation(libs.androidx.cardview)
-            implementation(libs.androidx.activity)
-            implementation(libs.androidx.lifecycle.runtime)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.fastadapter)
-            implementation(libs.materialdrawer.core)
-            implementation(libs.materialdrawer.iconics)
-            implementation(libs.iconics.core)
-            implementation(libs.iconics.mdit)
+            api(libs.koin.android)
         }
 
         val nonAndroidMain by creating {
@@ -80,6 +82,9 @@ kotlin {
             dependsOn(nonAndroidMain)
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation(baseLibs.kotlinx.coroutines.swing)
+                // Optional, for custom decorated windows:
+                implementation("org.jetbrains.jewel:jewel-int-ui-decorated-window-242:0.27.0")
             }
         }
 
@@ -107,11 +112,6 @@ android {
         versionCode = readPropertyOrElse("VERSION_CODE")!!.toInt()
         versionName = readPropertyOrElse("VERSION_NAME")
         setProperty("archivesBaseName", "Storyblok-v$versionName")
-        buildConfigField(
-            "String",
-            "STORYBLOK_TOKEN",
-            "\"" + readPropertyOrElse("storyblok.token") + "\""
-        )
     }
 
     packaging {
@@ -141,7 +141,7 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "com.mikepenz.storyblok.MainKt"
 
         buildTypes.release.proguard {
             isEnabled = true
@@ -160,7 +160,14 @@ compose.desktop {
     }
 }
 
+buildkonfig {
+    packageName = "com.mikepenz.storyblok"
+    defaultConfigs {
+        buildConfigField(STRING, "STORYBLOK_TOKEN", "${readPropertyOrElse("storyblok.token")}")
+    }
+}
+
 aboutLibraries {
-    registerAndroidTasks = true
+    registerAndroidTasks = false
     duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
 }

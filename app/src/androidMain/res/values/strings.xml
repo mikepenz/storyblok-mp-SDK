@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Storyblok SDK for Android</string>
-
     <string name="storyblok">Storyblok</string>
     <string name="open_source">Open Source</string>
 </resources>
