@@ -153,7 +153,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Storyblok Compose Desktop"
-            packageVersion = readPropertyOrElse("VERSION_NAME")
+            packageVersion = readPropertyOrElse("VERSION_NAME")!!.split("-").first()
             description = "A small sample app to showcase the power of Storyblok's API"
             copyright = "© 2025 Mike Penz. All rights reserved."
         }
