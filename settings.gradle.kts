@@ -1,30 +1,31 @@
-pluginManagement {
-    includeBuild("gradle/build-logic")
+rootProject.name = "storyblok-mp-sdk-root"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
+
+pluginManagement {
     repositories {
-        mavenCentral()
         google()
         gradlePluginPortal()
+        mavenCentral()
+        mavenLocal()
     }
 }
 
 dependencyResolutionManagement {
     repositories {
-        mavenCentral()
         google()
-        maven("https://maven.pkg.jetbrains.space/kotlin/p/wasm/experimental")
+        mavenCentral()
         mavenLocal()
+    }
+
+    versionCatalogs {
+        create("baseLibs") {
+            from("com.mikepenz:version-catalog:0.1.6")
+        }
     }
 }
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-// https://docs.gradle.org/7.6/userguide/configuration_cache.html#config_cache:stable
-enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
-
-rootProject.name = "storyblok-mp-sdk-root"
-
-include(
-    ":storyblok-mp-sdk",
-    ":sample-common",
-    ":app",
-)
+include(":storyblok-mp-sdk")
+include(":sample-common")
+include(":app")

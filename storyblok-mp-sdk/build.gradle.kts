@@ -1,6 +1,6 @@
 plugins {
-    id("com.mikepenz.android.library")
-    id("com.mikepenz.kotlin.multiplatform")
+    id("com.mikepenz.convention.android-library")
+    id("com.mikepenz.convention.kotlin-multiplatform")
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.dokka)
     alias(libs.plugins.mavenpublish)
@@ -58,15 +58,15 @@ kotlin {
 
         nativeMain {
             dependencies {
+                implementation(libs.ktor.cio)
+            }
+        }
+
+        appleMain {
+            dependencies {
                 implementation(libs.ktor.darwin)
             }
         }
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        freeCompilerArgs += "-Xcontext-receivers"
     }
 }
 
