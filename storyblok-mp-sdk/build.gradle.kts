@@ -3,6 +3,7 @@ import com.mikepenz.gradle.utils.readPropertyOrElse
 plugins {
     id("com.mikepenz.convention.android-library")
     id("com.mikepenz.convention.kotlin-multiplatform")
+    id("com.mikepenz.convention.publishing")
     id("org.jetbrains.kotlin.native.cocoapods")
     kotlin("plugin.serialization") version baseLibs.versions.kotlin.get()
     alias(libs.plugins.baselineprofile)
