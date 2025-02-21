@@ -1,5 +1,5 @@
 <h1 align="center">
-  storyblok-mp-SDK
+  Storyblok-mp-SDK
 </h1>
 
 <p align="center">
@@ -59,7 +59,7 @@ dependencies {
 <details><summary><b>JVM</b></summary>
 <p>
 
-To use the storyblok SDK on JVM, you have to include:
+To use the Storyblok SDK on JVM, you have to include:
 ```kotlin
 dependencies {
     implementation("com.mikepenz:storyblok-mp-sdk-jvm:${version}")

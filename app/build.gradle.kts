@@ -49,13 +49,13 @@ kotlin {
             implementation(compose.ui) { require(true) }
             implementation(compose.components.resources) { require(true) }
 
-            implementation(libs.bundles.aboutlibs) // aboutlibraries
+            implementation(baseLibs.bundles.aboutlibs) // aboutlibraries
         }
 
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
 
-            implementation(libs.aboutlibraries.ui)
+            implementation(baseLibs.aboutlibraries.compose.m3)
 
             implementation(libs.androidx.appcompat)
             implementation(libs.androidx.drawerlayout)
@@ -75,21 +75,23 @@ kotlin {
         val nonAndroidMain by creating {
             dependsOn(commonMain.get())
         }
+
         val desktopMain by getting {
             dependsOn(nonAndroidMain)
-        }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
         }
 
         nativeMain {
             dependsOn(nonAndroidMain)
         }
 
-        val wasmJsMain by getting {
+        wasmJsMain {
             dependsOn(nonAndroidMain)
-        }
-        wasmJsMain.dependencies {
+
+            dependencies {
+            }
         }
     }
 }
@@ -102,8 +104,8 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        versionCode = 2000
-        versionName = "2.0.0"
+        versionCode = readPropertyOrElse("VERSION_CODE")!!.toInt()
+        versionName = readPropertyOrElse("VERSION_NAME")
         setProperty("archivesBaseName", "Storyblok-v$versionName")
         buildConfigField(
             "String",
@@ -151,9 +153,9 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Storyblok Compose Desktop"
-            packageVersion = "2.0.0"
+            packageVersion = readPropertyOrElse("VERSION_NAME")
             description = "A small sample app to showcase the power of Storyblok's API"
-            copyright = "© 2024 Mike Penz. All rights reserved."
+            copyright = "© 2025 Mike Penz. All rights reserved."
         }
     }
 }

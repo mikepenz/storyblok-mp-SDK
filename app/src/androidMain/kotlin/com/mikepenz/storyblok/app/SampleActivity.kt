@@ -12,7 +12,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ModelAdapter
 import com.mikepenz.iconics.typeface.library.materialdesigniconic.MaterialDesignIconic
@@ -94,14 +93,14 @@ class SampleActivity : AppCompatActivity() {
                         data = Uri.parse("https://www.storyblok.com/")
                     })
                 } else if (drawerItem.identifier == 100L) {
-                    val intent = LibsBuilder()
-                        .withActivityTitle(getString(R.string.open_source))
-                        .withAboutIconShown(true)
-                        .withVersionShown(true)
-                        .withLicenseShown(true)
-                        .withAboutVersionShown(true)
-                        .intent(this@SampleActivity)
-                    this@SampleActivity.startActivity(intent)
+                    // val intent = LibsBuilder()
+                    //     .withActivityTitle(getString(R.string.open_source))
+                    //     .withAboutIconShown(true)
+                    //     .withVersionShown(true)
+                    //     .withLicenseShown(true)
+                    //     .withAboutVersionShown(true)
+                    //     .intent(this@SampleActivity)
+                    // this@SampleActivity.startActivity(intent)
                 }
                 false
             }
