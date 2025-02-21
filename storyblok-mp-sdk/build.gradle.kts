@@ -1,3 +1,5 @@
+import com.mikepenz.gradle.utils.readPropertyOrElse
+
 plugins {
     id("com.mikepenz.convention.android-library")
     id("com.mikepenz.convention.kotlin-multiplatform")
@@ -19,18 +21,18 @@ android {
 kotlin {
 
     cocoapods {
-        summary = "Kotlin multiplatform storyblok SDK"
+        summary = "Kotlin multiplatform Storyblok SDK"
         homepage = "https://github.com/mikepenz/storyblok-mp-SDK"
         authors = "Mike Penz"
         license = "Apache 2.0"
-        version = "2.0.0"
+        version = readPropertyOrElse("VERSION_NAME")
     }
 
     sourceSets {
         commonMain {
             dependencies {
                 // Coroutines
-                implementation(libs.kotlinx.coroutines.core)
+                implementation(baseLibs.kotlinx.coroutines.core)
 
                 // Ktor
                 implementation(libs.bundles.ktor)

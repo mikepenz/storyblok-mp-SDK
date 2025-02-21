@@ -12,7 +12,6 @@ plugins {
     alias(baseLibs.plugins.mavenPublish) apply false
     alias(baseLibs.plugins.binaryCompatiblityValidator) apply false
 
-    alias(libs.plugins.kotlinSerialization) apply false
 
     alias(libs.plugins.baselineprofile) apply false
 }
