@@ -1,11 +1,12 @@
+import com.mikepenz.gradle.utils.readPropertyOrElse
+
 plugins {
-    id("com.mikepenz.android.library")
-    id("com.mikepenz.kotlin.multiplatform")
-    alias(libs.plugins.baselineprofile)
-    alias(libs.plugins.dokka)
-    alias(libs.plugins.mavenpublish)
-    alias(libs.plugins.kotlinSerialization)
+    id("com.mikepenz.convention.android-library")
+    id("com.mikepenz.convention.kotlin-multiplatform")
+    id("com.mikepenz.convention.publishing")
     id("org.jetbrains.kotlin.native.cocoapods")
+    kotlin("plugin.serialization") version baseLibs.versions.kotlin.get()
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -21,18 +22,18 @@ android {
 kotlin {
 
     cocoapods {
-        summary = "Kotlin multiplatform storyblok SDK"
+        summary = "Kotlin multiplatform Storyblok SDK"
         homepage = "https://github.com/mikepenz/storyblok-mp-SDK"
         authors = "Mike Penz"
         license = "Apache 2.0"
-        version = "2.0.0"
+        version = readPropertyOrElse("VERSION_NAME")
     }
 
     sourceSets {
         commonMain {
             dependencies {
                 // Coroutines
-                implementation(libs.kotlinx.coroutines.core)
+                implementation(baseLibs.kotlinx.coroutines.core)
 
                 // Ktor
                 implementation(libs.bundles.ktor)
@@ -58,15 +59,15 @@ kotlin {
 
         nativeMain {
             dependencies {
+                implementation(libs.ktor.cio)
+            }
+        }
+
+        appleMain {
+            dependencies {
                 implementation(libs.ktor.darwin)
             }
         }
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        freeCompilerArgs += "-Xcontext-receivers"
     }
 }
 

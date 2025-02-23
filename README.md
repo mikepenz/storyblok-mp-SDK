@@ -1,5 +1,5 @@
 <h1 align="center">
-  storyblok-mp-SDK
+  Storyblok-mp-SDK
 </h1>
 
 <p align="center">
@@ -34,18 +34,21 @@
 -------
 
 ## About Storyblok
+
 - **WEBSITE** https://www.storyblok.com/
 - **API DOC** https://www.storyblok.com/docs/api/content-delivery/v2
 
 -------
 
 ## Setup
+
 ### Using Gradle
 
 <details open><summary><b>Multiplatform</b></summary>
 <p>
 
-For multiplatform projects specify this single dependency via [Maven Central](https://search.maven.org/artifact/com.mikepenz/storyblok-mp-sdk):
+For multiplatform projects specify this single dependency
+via [Maven Central](https://search.maven.org/artifact/com.mikepenz/storyblok-mp-sdk):
 
 ```kotlin
 dependencies {
@@ -59,7 +62,8 @@ dependencies {
 <details><summary><b>JVM</b></summary>
 <p>
 
-To use the storyblok SDK on JVM, you have to include:
+To use the Storyblok SDK on JVM, you have to include:
+
 ```kotlin
 dependencies {
     implementation("com.mikepenz:storyblok-mp-sdk-jvm:${version}")
@@ -73,6 +77,7 @@ dependencies {
 <p>
 
 For Android a special dependency is provided:
+
 ```kotlin
 dependencies {
     implementation("com.mikepenz:storyblok-mp-sdk-android:${version}")
@@ -85,7 +90,9 @@ dependencies {
 <details><summary><b>iOS</b></summary>
 <p>
 
-For iOS you will have to use the Kotlin Native [support](https://github.com/JetBrains/kotlin-native) and use the following dependency:
+For iOS you will have to use the Kotlin Native [support](https://github.com/JetBrains/kotlin-native)
+and use the following dependency:
+
 ```kotlin
 dependencies {
     implementation("com.mikepenz:storyblok-mp-sdk-ios:${version}")
@@ -98,7 +105,9 @@ dependencies {
 <details><summary><b>JS</b></summary>
 <p>
 
-For JS (node-js) applications you will have to use the Kotlin JS [support](https://kotlinlang.org/docs/tutorials/javascript/kotlin-to-javascript/kotlin-to-javascript.html) and the following dependency:
+For JS (node-js) applications you will have to use the Kotlin
+JS [support](https://kotlinlang.org/docs/tutorials/javascript/kotlin-to-javascript/kotlin-to-javascript.html)
+and the following dependency:
 
 ```kotlin
 dependencies {
@@ -112,6 +121,7 @@ dependencies {
 -------
 
 ## Usage
+
 ### Init client
 
 ```kotlin
@@ -120,76 +130,78 @@ val client = Storyblok("your-storyblok-token")
 
 ### General
 
-This Kotlin multi platform library uses Kotlin coroutines for the requests (similar to the ktor API).
+This Kotlin multi platform library uses Kotlin coroutines for the requests (similar to the ktor
+API).
 All fetch methods are suspending functions, and need to be called respectively.
 
 ### Load a story
+
 ```kotlin
 client.fetchStory("full_slug:id:uuid")
-// All storyblock params are supported, see javadoc for more information
+// All Storyblok params are supported, see javadoc for more information
 ```
 
 ### Load a list of stories
+
 ```kotlin
 client.fetchStories()
-// All storyblock params are supported, see javadoc for more information
+// All Storyblok params are supported, see javadoc for more information
 ```
 
 ### Load current space
+
 ```kotlin
 client.fetchCurrentSpace()
 ```
 
 ### Load a list of datasources
+
 ```kotlin
 client.fetchDatasources()
-// All storyblock params are supported, see javadoc for more information
+// All Storyblok params are supported, see javadoc for more information
 ```
 
 ### Load a map of datasource entries
+
 ```kotlin
 client.fetchDatasourceEntries()
-// All storyblock params are supported, see javadoc for more information
+// All Storyblok params are supported, see javadoc for more information
 ```
 
 ### Load a list of map of links with their uuid as key
+
 ```kotlin
 client.fetchLinks()
-// All storyblock params are supported, see javadoc for more information
+// All Storyblok params are supported, see javadoc for more information
 ```
 
 ### Load a list of tags
+
 ```kotlin
 client.fetchTags()
-// All storyblock params are supported, see javadoc for more information
+// All Storyblok params are supported, see javadoc for more information
 ```
 
 ## Libs used in android sample app:
+
 Mike Penz:
-- FastAdapter https://github.com/mikepenz/FastAdapter
+
 - AboutLibraries https://github.com/mikepenz/AboutLibraries
-- Android-Iconics https://github.com/mikepenz/Android-Iconics
-- MaterialDrawer https://github.com/mikepenz/MaterialDrawer
 
-## Developed By
+# Developed By
 
-* Mike Penz
- * [mikepenz.com](http://mikepenz.com) - <mikepenz@gmail.com>
- * [paypal.me/mikepenz](http://paypal.me/mikepenz)
+- Mike Penz
+    - [mikepenz.dev](https://mikepenz.dev) - [blog.mikepenz.dev](https://blog.mikepenz.dev)
+    - [paypal.me/mikepenz](http://paypal.me/mikepenz)
 
 ## Contributors
 
-This free, open source software was also made possible by a group of volunteers that put many hours of hard work into it. See the [CONTRIBUTORS.md](CONTRIBUTORS.md) file for details.
-
-## Credits
-
-Some parts of the Kotlin Multiplatform configurations are a result of various great resources on the internet. Including:
-- https://github.com/cashapp/sqldelight
-- and the official Kotlin multiplatform docs
+This free, open source software was also made possible by a group of volunteers that put many hours
+of hard work into it. See the [CONTRIBUTORS.md](CONTRIBUTORS.md) file for details.
 
 ## License
 
-    Copyright 2021 Mike Penz
+    Copyright 2025 Mike Penz
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -31,19 +31,42 @@ import kotlinx.serialization.json.Json
  * This class is the main API class to do all the requests on the Storyblok API.
  *
  * @param token The API token used to do the API requests
+ * @param editMode Defines if the requests shall be made in the edit mode
+ * @param apiProtocol The protocol to use for the requests
+ * @param apiPort The port to use for the requests
+ * @param apiEndpoint The endpoint to call for the requests
+ * @param apiPath The path to call for the requests
  * @param providedClient Provide a custom client implementation, not using the default
  * @param configureClient Creates the [HttpClient]. Overwriting this allows to construct a custom engine, or do further adjustments to the client. Note that it is required to provide a serializer again to parse the data
  */
-class Storyblok constructor(
+class Storyblok(
     private val token: String,
+    /**  Defines if the requests shall be made in the edit mode*/
+    val editMode: Boolean = false,
+    /**  The protocol to use for the requests*/
+    apiProtocol: String = API_PROTOCOL,
+    /** The port to use for the requests*/
+    apiPort: Int? = null,
+    /**  The endpoint to call for the requests*/
+    val apiEndpoint: String = Endpoints.EU.host,
+    /**  The path to call for the requests*/
+    val apiPath: String = Endpoints.EU.path,
     providedClient: HttpClient? = null,
-    configureClient: (HttpClientConfig<*>.() -> Unit)? = null
+    configureClient: (HttpClientConfig<*>.() -> Unit)? = null,
 ) {
+    private val apiProtocol = URLProtocol.createOrDefault(apiProtocol)
+    private val apiPort = apiPort ?: this.apiProtocol.defaultPort
 
     /**
+     * Constructor to create a new Storyblok instance with the provided token.
+     *
      * @param token The API token used to do the API requests
+     * @param apiEndpoint The endpoint to call for the requests
      */
-    constructor(token: String) : this(token, null, null)
+    constructor(
+        token: String,
+        apiEndpoint: String = API_ENDPOINT,
+    ) : this(token, false, API_PROTOCOL, null, apiEndpoint, API_PATH, null, null)
 
     private val client by lazy {
         (providedClient ?: provideClient()).config {
@@ -55,31 +78,6 @@ class Storyblok constructor(
             })
         }
     }
-
-    /**
-     * Defines if the requests shall be made in the edit mode
-     */
-    var editMode = false
-
-    /**
-     * The protocol to use for the requests
-     */
-    var apiProtocol = API_PROTOCOL
-
-    /**
-     * The port to use for the requests
-     */
-    var apiPort = API_PROTOCOL.defaultPort
-
-    /**
-     * The endpoint to call for the requests
-     */
-    var apiEndpoint = API_ENDPOINT
-
-    /**
-     * The current API version to use for the requests
-     */
-    var apiVersion = API_VERSION
 
     /**
      * The requestBuilder to modify requests constructed, allows to add additional headers, ...
@@ -125,7 +123,7 @@ class Storyblok constructor(
         fromRelease: Long? = null,
         language: String? = null,
         fallbackLang: String? = null,
-        cv: Long? = null
+        cv: Long? = null,
     ): StoryWrapper {
         val story: StoryWrapper = client.get(buildUrl(ENDPOINT_STORIES, key), requestBuilder {
             parameter("find_by", findBy)
@@ -200,7 +198,7 @@ class Storyblok constructor(
         withTag: Array<String>? = null,
         page: Int = 1,
         perPage: Int = 25,
-        cv: Long? = null
+        cv: Long? = null,
     ): StoriesWrapper {
         val storyList: StoriesWrapper = client.get(buildUrl(ENDPOINT_STORIES), requestBuilder {
             parameter("starts_with", startsWith)
@@ -263,7 +261,7 @@ class Storyblok constructor(
         dimension: String? = null,
         page: Int = 1,
         perPage: Int = 25,
-        cv: Long? = null
+        cv: Long? = null,
     ): List<Datasource> {
         val datasourceList: DatasourceWrapper =
             client.get(buildUrl(ENDPOINT_DATASOURCE_ENTRIES), requestBuilder {
@@ -289,7 +287,7 @@ class Storyblok constructor(
         startsWith: String? = null,
         paginated: Int? = null,
         page: Int = 1,
-        perPage: Int = 25
+        perPage: Int = 25,
     ): Map<String, Link> {
         val linksList: LinksWrapper = client.get(buildUrl(ENDPOINT_LINKS), requestBuilder {
             parameter("starts_with", startsWith)
@@ -317,16 +315,37 @@ class Storyblok constructor(
             this.protocol = apiProtocol
             this.host = apiEndpoint
             this.port = apiPort
-            this.path(apiVersion, "cdn", method, *pathSegments)
+            this.path(apiPath, method, *pathSegments)
         }.build()
     }
 
-    private companion object {
-        private val API_PROTOCOL = URLProtocol.HTTPS
-        private const val API_ENDPOINT = "api.storyblok.com"
-        private const val API_VERSION = "v2"
+    /**
+     * API Endpoints as described by the Storyblok API documentation
+     * https://www.storyblok.com/docs/api/content-delivery/v2/getting-started/
+     */
+    enum class Endpoints(val host: String, val path: String = "v2/cdn") {
+        /** Base URL for spaces created in Europe */
+        EU("api.storyblok.com"),
 
-        private const val SDK_VERSION = "2.0.0"
+        /** Base URL for spaces created in United States */
+        US("api-us.storyblok.com"),
+
+        /** Base URL for spaces created in canada */
+        CA("api-ca.storyblok.com"),
+
+        /** Base URL for spaces created in Australia */
+        AP("api-ap.storyblok.com"),
+
+        /** Base URL for spaces created in China */
+        CN("app.storyblokchina.cn", "")
+    }
+
+    private companion object {
+        private const val API_PROTOCOL = "https"
+        private val API_ENDPOINT = Endpoints.EU.host
+        private val API_PATH = Endpoints.EU.path
+
+        private const val SDK_VERSION = "2.1.0-rc01"
         private const val SDK_USER_AGENT = "storyblok-sdk-android/$SDK_VERSION"
 
         private const val VERSION_PUBLISHED = "published"
@@ -337,7 +356,6 @@ class Storyblok constructor(
         private const val ENDPOINT_LINKS = "links" // the endpoint for links
         private const val ENDPOINT_TAGS = "tags" // the endpoint for tags
         private const val ENDPOINT_DATASOURCE = "datasources" // the endpoint for datasources
-        private const val ENDPOINT_DATASOURCE_ENTRIES =
-            "datasource_entries" // the endpoint for datasource entries
+        private const val ENDPOINT_DATASOURCE_ENTRIES = "datasource_entries" // the endpoint for datasource entries
     }
 }
