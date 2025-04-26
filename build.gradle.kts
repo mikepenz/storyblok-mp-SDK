@@ -11,6 +11,7 @@ plugins {
     alias(baseLibs.plugins.dokka)
     alias(baseLibs.plugins.mavenPublish) apply false
     alias(baseLibs.plugins.binaryCompatiblityValidator) apply false
+    alias(baseLibs.plugins.versionCatalogUpdate) apply false
 
 
     alias(libs.plugins.baselineprofile) apply false
