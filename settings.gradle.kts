@@ -22,7 +22,7 @@ dependencyResolutionManagement {
 
     versionCatalogs {
         create("baseLibs") {
-            from("com.mikepenz:version-catalog:0.1.6")
+            from("com.mikepenz:version-catalog:0.3.3")
         }
     }
 }
