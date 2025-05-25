@@ -1,19 +1,20 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.mikepenz.gradle.utils.readPropertyOrElse
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    id("com.mikepenz.convention.kotlin-multiplatform")
     id("com.mikepenz.convention.android-application")
+    id("com.mikepenz.convention.kotlin-multiplatform")
     id("com.mikepenz.convention.compose")
     id("com.mikepenz.aboutlibraries.plugin")
     id("com.codingfeline.buildkonfig") version "0.17.1"
 }
 
 kotlin {
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        outputModuleName = "composeApp"
+        outputModuleName = "storyblok"
         browser {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
@@ -36,7 +37,6 @@ kotlin {
             isStatic = true
         }
     }
-
 
     applyDefaultHierarchyTemplate()
 
