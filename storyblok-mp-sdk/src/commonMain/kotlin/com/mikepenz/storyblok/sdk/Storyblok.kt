@@ -345,7 +345,7 @@ class Storyblok(
         private val API_ENDPOINT = Endpoints.EU.host
         private val API_PATH = Endpoints.EU.path
 
-        private const val SDK_VERSION = "2.2.0"
+        private const val SDK_VERSION = "2.3.0"
         private const val SDK_USER_AGENT = "storyblok-sdk-android/$SDK_VERSION"
 
         private const val VERSION_PUBLISHED = "published"
