@@ -2,12 +2,12 @@
 androidx-benchmark = "1.3.4"
 datetime = "0.6.2"
 serialization = "1.8.1"
-ktor = "3.1.2"
+ktor = "3.1.3"
 kermit = "2.0.5"
 koin = "4.0.4"
-kmp-nativecoroutines = "1.0.0-ALPHA-42"
-kmp-observeablevm = "1.0.0-BETA-10"
-androidx-lifecycle = "2.8.7"
+kmp-nativecoroutines = "1.0.0-ALPHA-43"
+kmp-observeablevm = "1.0.0-BETA-11"
+androidx-lifecycle = "2.9.0"
 
 [plugins]
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidx-benchmark" }

@@ -6,10 +6,11 @@ import androidx.compose.runtime.collectAsState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.module.Module
+import org.koin.dsl.module
 import kotlin.coroutines.CoroutineContext
 
-actual fun platformModule(): Module {
-    TODO("Not yet implemented")
+actual fun platformModule() = module {
+
 }
 
 actual fun Module.viewModel() {
