@@ -1,6 +1,7 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.mikepenz.gradle.utils.readPropertyOrElse
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     id("com.mikepenz.convention.android-application")
@@ -11,9 +12,9 @@ plugins {
 }
 
 kotlin {
-    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        outputModuleName = "composeApp"
+        outputModuleName = "storyblok"
         browser {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
@@ -36,7 +37,6 @@ kotlin {
             isStatic = true
         }
     }
-
 
     applyDefaultHierarchyTemplate()
 
