@@ -3,8 +3,8 @@ import com.mikepenz.gradle.utils.readPropertyOrElse
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
-    id("com.mikepenz.convention.kotlin-multiplatform")
     id("com.mikepenz.convention.android-application")
+    id("com.mikepenz.convention.kotlin-multiplatform")
     id("com.mikepenz.convention.compose")
     id("com.mikepenz.aboutlibraries.plugin")
     id("com.codingfeline.buildkonfig") version "0.17.1"
