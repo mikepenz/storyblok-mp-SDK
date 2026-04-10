@@ -1,6 +1,10 @@
 <h1 align="center">
-  Storyblok-mp-SDK
+  Storyblok-mp-SDK [DEPRECATED]
 </h1>
+
+<p align="center">
+    <b>⚠️ This project is deprecated. Please use the official <a href="https://github.com/storyblok/storyblok-kotlin">Storyblok Kotlin SDK</a> instead. ⚠️</b>
+</p>
 
 <p align="center">
     ... a Storyblok Client SDK written using Kotlin Multiplatform. (Android, JVM, JS, iOS, ...)
